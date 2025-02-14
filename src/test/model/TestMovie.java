@@ -113,5 +113,28 @@ public class TestMovie {
         assertEquals(testService2, testMovie.getStreamServices().get(1));
     }
 
+    @Test
+    public void testAverageScore() {
+        testMovie.rateMovie(testRate1);
+        double avescore = 1;
+        assertEquals(avescore, testMovie.averageScore(), 0.01);
+
+        testMovie.rateMovie(testRate2);
+        avescore = (1+4)/2;
+        assertEquals(avescore, testMovie.averageScore(), 0.01);
+    }
+
+    @Test
+    public void testFindScoreWithUserID() {
+        testMovie.rateMovie(testRate1);
+        testMovie.rateMovie(testRate2);
+        assertEquals(1, testMovie.findScoreWithUserID(22233));
+        assertEquals(4, testMovie.findScoreWithUserID(21290));
+
+        testMovie.rateMovie(testRate3);
+        assertEquals(3, testMovie.findScoreWithUserID(21290));
+
+
+    }
 
 }
