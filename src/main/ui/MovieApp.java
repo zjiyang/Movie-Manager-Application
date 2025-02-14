@@ -113,15 +113,12 @@ public class MovieApp {
     // MODIFIES: this
     // EFFECTS: prompts user to add a valid Genre type to the given movie
     public void setGenre(Movie movie) {
-        System.out.print("Add a genre by selecting from: ");
+        System.out.print("\nAdd a genre by selecting from:");
         System.out.println("\ta -> Action");
         System.out.println("\tb -> Drama");
         System.out.println("\tc -> Comedy");
         System.out.println("\td -> Horror");
         System.out.println("\te -> Romance");
-        System.out.println("\tf -> Animation");
-        System.out.println("\tg -> Sci_Fi");
-        System.out.println("\th -> Documentary");
 
         String command;
         command = input.next();
@@ -137,22 +134,15 @@ public class MovieApp {
             movie.addGenre(Genre.Horror);
         } else if (command.equals("e")) {
             movie.addGenre(Genre.Romance);
-        } else if (command.equals("f")) {
-            movie.addGenre(Genre.Animation);
-        } else if (command.equals("g")) {
-            movie.addGenre(Genre.Sci_Fi);
-        } else if (command.equals("h")) {
-            movie.addGenre(Genre.Documentary);
         } else {
             System.out.println("Selection not valid...");
         }
     }
 
-
     // MODIFIES: this
     // EFFECTS: rate a movie:
-    //          if user input a new movie, ask user to create the movie first;
-    //          if user input a existing movie, then add rate to it.
+    // if user input a new movie, ask user to create the movie first;
+    // if user input a existing movie, then add rate to it.
     public void rateMovie() {
         System.out.print("Type the movie title to rate: ");
         String name = input.next();
@@ -169,8 +159,8 @@ public class MovieApp {
 
     // MODIFIES: this
     // EFFECTS: rate a existing movie and display the new updated average score.
-    //          if user hasn't add a rate to the given movie, add the rate.
-    //          if user rated before, replace the old rate with new rate.
+    // if user hasn't add a rate to the given movie, add the rate.
+    // if user rated before, replace the old rate with new rate.
     public void rateExistMovie(Movie movie) {
         int userID;
         System.out.print("Please enter your userID: ");
@@ -193,8 +183,8 @@ public class MovieApp {
         System.out.println("now the new average score is " + movie.averageScore());
     }
 
-
-    // EFFECTS: display all movies in the database so far with name, year, and average score.
+    // EFFECTS: display all movies in the database so far with name, year, and
+    // average score.
     public void viewAllMovie() {
         ArrayList<Movie> movieList = this.movies.getDataBase();
         System.out.println("Here are the movies on our database:");
@@ -206,18 +196,16 @@ public class MovieApp {
         }
     }
 
-    // EFFECTS: display movies in the order of decresing average score
+    // EFFECTS: prompts user to select a Genre type to see the best rated movie
+    @SuppressWarnings("methodlength")
     public void viewRecommendation() {
-        System.out.print("please filter the list by selecting a genre from: ");
+        System.out.print("\nplease filter the list by selecting a genre from: ");
         System.out.println("\ta -> Action");
         System.out.println("\tb -> Drama");
         System.out.println("\tc -> Comedy");
         System.out.println("\td -> Horror");
         System.out.println("\te -> Romance");
-        System.out.println("\tf -> Animation");
-        System.out.println("\tg -> Sci_Fi");
-        System.out.println("\th -> Documentary");
-        System.out.println("\ti -> All Genres");
+        System.out.println("\tf -> All Genres");
 
         String command;
         command = input.next();
@@ -242,43 +230,32 @@ public class MovieApp {
             filteredMovies = movies.filterMoviebyGenre(Genre.Romance);
             range = "in Romance";
         } else if (command.equals("f")) {
-            filteredMovies = movies.filterMoviebyGenre(Genre.Animation);
-            range = "in Animation";
-        } else if (command.equals("g")) {
-            filteredMovies = movies.filterMoviebyGenre(Genre.Sci_Fi);
-            range = "in Sci_Fi";
-        } else if (command.equals("h")) {
-            filteredMovies = movies.filterMoviebyGenre(Genre.Documentary);
-            range = "in Documentary";
-        } else if (command.equals("i")) {
             filteredMovies = this.movies.getDataBase();
             range = "over all";
         } else {
             System.out.println("Selection not valid...");
         }
-
         System.out.print("The top rated movie " + range + " is : " + this.topAveScoreMovie(filteredMovies).getName());
-        
     }
 
     // EFFECTS: return the top average score movie.
-    //          the first movie, if same score 
+    // the first movie, if same score
     public Movie topAveScoreMovie(ArrayList<Movie> movies) {
         Movie topMovie = null;
         double topScore = 0;
-        for (int index=0; index <= (movies.size() - 1); index++) {
+        for (int index = 0; index <= (movies.size() - 1); index++) {
             if (movies.get(index).averageScore() > topScore) {
                 topMovie = movies.get(index);
                 topScore = movies.get(index).averageScore();
             }
-        }  
+        }
         return topMovie;
     }
 
     // MODIFIES: this
     // EFFECTS: prompts user to select a valid stream service to the given movie
     public void setStreamService(Movie movie) {
-        System.out.print("Add a stream service by selecting from: ");
+        System.out.print("\nAdd a stream service by selecting from: ");
         System.out.println("\ta -> Netflix");
         System.out.println("\tb -> DisneyPlus");
         System.out.println("\tc -> AppleTV");
@@ -314,13 +291,13 @@ public class MovieApp {
             System.out.println("We don't have this movie yet! Please help add it to the database: ");
             addMovie();
         } else {
-            //System.out.println("results: ");
+            // System.out.println("results: ");
             ArrayList<StreamService> services = movies.getDataBase().get(index).getStreamServices();
 
             System.out.println("There are " + services.size() + " stream services available: ");
             for (int servicesindex = 0; (servicesindex <= (services.size() - 1)); servicesindex++) {
                 System.out.println((servicesindex + 1) + ". " + services.get(servicesindex).getStreamPlatformName());
-            }   
+            }
         }
     }
 }

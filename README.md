@@ -15,7 +15,7 @@ This project stands out because it focuses on enhancing the movie experience. It
 
 ## User Stories
 - As a user, I want to contribute a new movie to the platform by providing its title, release year, genre, and streaming platform availability.
-- As a user, I want to view all the movies on the platform.
+- As a user, I want to view all the movies on the platform with name, year, and average score.
 - As a user, I want to rate a movie on a scale of 1-5.
-- As a user, I want to see the top-rated movie in a given genre.
+- As a user, I want to have movie recommendation by checking the top-rated movie in a given genre.
 - As a user, I want to find out which streaming services have a particular movie available.
