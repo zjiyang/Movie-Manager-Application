@@ -1,21 +1,21 @@
 package model;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestGenre {
-    private Genre testGenre;
+    public Genre testGenre1;
 
     @BeforeEach
     public void runBefore() {
-        testGenre = new Genre("testGenre");
+        testGenre1 = new Genre("testGenre1");
     }
 
     @Test
     public void testConstructor() {
-        assertEquals("testGenre", testGenre.getGenreName());
+        assertEquals("testGenre1", testGenre1.getGenreName());
     }
     
 

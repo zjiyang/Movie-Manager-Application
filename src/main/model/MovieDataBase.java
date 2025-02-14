@@ -7,7 +7,7 @@ public class MovieDataBase {
     private ArrayList<Movie> MovieDataBase;
 
     // EFFECTS: Construct a empty movie database for the platform.
-    public MovieDataBase(int userID) {
+    public MovieDataBase() {
         MovieDataBase = new ArrayList<>();
     }
 

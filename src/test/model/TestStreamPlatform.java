@@ -1,21 +1,21 @@
 package model;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestStreamPlatform {
-    private StreamService testStreamPlatform;
+    public StreamService testStreamService;
 
     @BeforeEach
     public void runBefore() {
-        testStreamPlatform = new StreamService("testStreamPlatform");
+        testStreamService = new StreamService("testStreamService");
     }
 
     @Test
     public void testConstructor() {
-        assertEquals("testStreamPlatform", testStreamPlatform.getStreamPlatformName());
+        assertEquals("testStreamService", testStreamService.getStreamPlatformName());
     }
 
 }

@@ -7,7 +7,7 @@ public class Movie {
     String name;
     int yearReleased;
     ArrayList<Genre> genres;
-    ArrayList<Integer> scores;
+    ArrayList<Rate> rates;
     ArrayList<StreamService> streamServices;
 
     // REQUIRES: name has a non-zero length
@@ -17,7 +17,7 @@ public class Movie {
         this.name = name;
         this.yearReleased = 0;
         this.genres = new ArrayList<>();
-        this.scores = new ArrayList<>();
+        this.rates = new ArrayList<>();
         this.streamServices = new ArrayList<>();
     }
 
@@ -30,13 +30,44 @@ public class Movie {
     // MODIFIES: this
     // EFFECTS: add a genre if it's not been added yet.
     public void addGenre(Genre genre) {
-        this.genres.add(genre);
+        if(!(this.genres.contains(genre))) {
+            this.genres.add(genre);
+        }
+    }
+
+
+    // EFFECTS: true if this rate's user rated this movie before
+    public Boolean ratedBefore (Rate rate) {
+        for (Rate currentrate : this.rates) {
+            if (currentrate.getUserID() == rate.userID) {
+                return true;
+            }          
+        } 
+        return false;
+    }
+
+    // REQUIRES: userID > 0; 0 <= score <= 5, 
+    // EFFECTS: if userID rated before - change the rate the user rated before,
+    //          if not - add the score to the list
+    public void rateMovie (Rate rate) {
+        if (!(this.ratedBefore(rate))) {
+            this.rates.add(rate);
+        } else {
+            for (int index=0; index <= (this.rates.size() - 1); index++) {
+                if (this.rates.get(index).getUserID() == rate.userID) {
+                    this.rates.set(index, rate);
+                }
+            }
+        }
     }
 
     // MODIFIES: this
     // EFFECTS: add a genre if it's not been added yet.
-    public void addStreamServices(StreamService streamService) {
-        this.streamServices.add(streamService);
+    public void addStreamService(StreamService streamService) {
+        if (!(this.streamServices.contains(streamService))) {
+            this.streamServices.add(streamService);
+        }
+        
     }
 
     // below are getters
@@ -52,8 +83,8 @@ public class Movie {
         return this.genres;
     }
 
-    public ArrayList<Integer> getScores() {
-        return this.scores;
+    public ArrayList<Rate> getRates() {
+        return this.rates;
     }
 
     public ArrayList<StreamService> getStreamServices() {
