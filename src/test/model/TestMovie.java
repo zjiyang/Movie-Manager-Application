@@ -22,7 +22,7 @@ public class TestMovie {
         assertEquals(0, testMovie.getYearReleased());
         assertTrue(testMovie.getGenres().isEmpty());
         assertTrue(testMovie.getScores().isEmpty());
-        assertTrue(testMovie.getStreamPlatforms().isEmpty());
+        assertTrue(testMovie.getStreamServices().isEmpty());
     }
 
     @Test 

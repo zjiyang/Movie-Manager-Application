@@ -8,34 +8,38 @@ public class Movie {
     int yearReleased;
     ArrayList<Genre> genres;
     ArrayList<Integer> scores;
-    ArrayList<StreamPlatform> streamPlatforms;
+    ArrayList<StreamService> streamServices;
 
-    //REQUIRES: name has a non-zero length
-    //EFFECTS: Construct a Movie object with given name, set the released year 0, 
-    //         genres as empty list, rates as empty list, stream platforms as empty list.
-    public Movie (String name) {
+    // REQUIRES: name has a non-zero length
+    // EFFECTS: Construct a Movie object with given name, set the released year 0,
+    // genres as empty list, rates as empty list, stream platforms as empty list.
+    public Movie(String name) {
         this.name = name;
         this.yearReleased = 0;
         this.genres = new ArrayList<>();
         this.scores = new ArrayList<>();
-        this.streamPlatforms = new ArrayList<>();
+        this.streamServices = new ArrayList<>();
     }
 
+    // MODIFIES: this
+    // EFFECTS: set the released year 
     public void setYearReleased(int yearReleased) {
         this.yearReleased = yearReleased;
     }
 
-    //EFFECTS: add a genre if it's not been added yet.
+    // MODIFIES: this
+    // EFFECTS: add a genre if it's not been added yet.
     public void addGenre(Genre genre) {
         this.genres.add(genre);
     }
 
-    public void addStreamPlatforms(StreamPlatform streamPlatform) {
-        this.streamPlatforms.add(streamPlatform);
+    // MODIFIES: this
+    // EFFECTS: add a genre if it's not been added yet.
+    public void addStreamServices(StreamService streamService) {
+        this.streamServices.add(streamService);
     }
 
-
-    //below are getters
+    // below are getters
     public String getName() {
         return this.name;
     }
@@ -52,7 +56,7 @@ public class Movie {
         return this.scores;
     }
 
-    public ArrayList<StreamPlatform> getStreamPlatforms() {
-        return this.streamPlatforms;
+    public ArrayList<StreamService> getStreamServices() {
+        return this.streamServices;
     }
 }

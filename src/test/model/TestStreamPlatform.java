@@ -6,11 +6,11 @@ import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 public class TestStreamPlatform {
-    private StreamPlatform testStreamPlatform;
+    private StreamService testStreamPlatform;
 
     @BeforeEach
     public void runBefore() {
-        testStreamPlatform = new StreamPlatform("testStreamPlatform");
+        testStreamPlatform = new StreamService("testStreamPlatform");
     }
 
     @Test
