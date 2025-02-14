@@ -30,14 +30,7 @@ public class MovieDataBase {
         return filteredMovies;
     }
 
-    // public ArrayList<Movie> rankMovies() {
-    // ArrayList<Movie> rankedMovies = new ArrayList<>(dataBase);
 
-    // for (Movie movie : dataBase) {
-    // movie.averageScore();
-    // }
-
-    // }
 
     // EFFECTS: return the index if database has the movie with given name
     // or return -1.

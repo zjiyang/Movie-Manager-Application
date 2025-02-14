@@ -88,5 +88,22 @@ public class TestMovieDataBase {
         assertEquals(-1, testDataBase.findMovie("testMovie4"));
     }
 
+    // @Test void testTopAveScoreMovie() {
+    //     testDataBase.addMovie(testMovie1);
+    //     testDataBase.addMovie(testMovie2);
+    //     testDataBase.addMovie(testMovie3);
+        
+
+    //     testMovie1.rateMovie(testRate3);
+    //     testMovie3.rateMovie(testRate4);
+    //     assertEquals(testMovie3, testDataBase.topAveScoreMovie());
+
+    //     testMovie2.rateMovie(testRate4);
+    //     assertEquals(testMovie2, testDataBase.topAveScoreMovie());
+
+    //     testMovie3.rateMovie(testRate25);
+    //     assertEquals(testMovie3, testDataBase.topAveScoreMovie());
+    // }
+
 }
 

@@ -135,8 +135,6 @@ public class MovieApp {
             movie.addGenre(Genre.Comedy);
         } else if (command.equals("d")) {
             movie.addGenre(Genre.Horror);
-        } else if (command.equals("d")) {
-            movie.addGenre(Genre.Horror);
         } else if (command.equals("e")) {
             movie.addGenre(Genre.Romance);
         } else if (command.equals("f")) {
@@ -210,8 +208,71 @@ public class MovieApp {
 
     // EFFECTS: display movies in the order of decresing average score
     public void viewRecommendation() {
-        //TODO
-        System.out.println(this.movies);
+        System.out.print("please filter the list by selecting a genre from: ");
+        System.out.println("\ta -> Action");
+        System.out.println("\tb -> Drama");
+        System.out.println("\tc -> Comedy");
+        System.out.println("\td -> Horror");
+        System.out.println("\te -> Romance");
+        System.out.println("\tf -> Animation");
+        System.out.println("\tg -> Sci_Fi");
+        System.out.println("\th -> Documentary");
+        System.out.println("\ti -> All Genres");
+
+        String command;
+        command = input.next();
+        command = command.toLowerCase();
+        String range = "";
+
+        ArrayList<Movie> filteredMovies = new ArrayList<>();
+
+        if (command.equals("a")) {
+            filteredMovies = movies.filterMoviebyGenre(Genre.Action);
+            range = "in Action";
+        } else if (command.equals("b")) {
+            filteredMovies = movies.filterMoviebyGenre(Genre.Drama);
+            range = "in Drama";
+        } else if (command.equals("c")) {
+            filteredMovies = movies.filterMoviebyGenre(Genre.Comedy);
+            range = "in Comedy";
+        } else if (command.equals("d")) {
+            filteredMovies = movies.filterMoviebyGenre(Genre.Horror);
+            range = "in Horror";
+        } else if (command.equals("e")) {
+            filteredMovies = movies.filterMoviebyGenre(Genre.Romance);
+            range = "in Romance";
+        } else if (command.equals("f")) {
+            filteredMovies = movies.filterMoviebyGenre(Genre.Animation);
+            range = "in Animation";
+        } else if (command.equals("g")) {
+            filteredMovies = movies.filterMoviebyGenre(Genre.Sci_Fi);
+            range = "in Sci_Fi";
+        } else if (command.equals("h")) {
+            filteredMovies = movies.filterMoviebyGenre(Genre.Documentary);
+            range = "in Documentary";
+        } else if (command.equals("i")) {
+            filteredMovies = this.movies.getDataBase();
+            range = "over all";
+        } else {
+            System.out.println("Selection not valid...");
+        }
+
+        System.out.print("The top rated movie " + range + " is : " + this.topAveScoreMovie(filteredMovies).getName());
+        
+    }
+
+    // EFFECTS: return the top average score movie.
+    //          the first movie, if same score 
+    public Movie topAveScoreMovie(ArrayList<Movie> movies) {
+        Movie topMovie = null;
+        double topScore = 0;
+        for (int index=0; index <= (movies.size() - 1); index++) {
+            if (movies.get(index).averageScore() > topScore) {
+                topMovie = movies.get(index);
+                topScore = movies.get(index).averageScore();
+            }
+        }  
+        return topMovie;
     }
 
     // MODIFIES: this
