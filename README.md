@@ -20,4 +20,4 @@ This project stands out because it focuses on enhancing the movie experience. It
 - As a user, I want to have movie recommendation by checking the top-rated movie in a given genre.
 - As a user, I want to find out which streaming services have a particular movie available.
 - As a user, when I select the quit option from the application menu, I want to be reminded to save my movie contributions to the platform database and have the option to do so or not.
-- As a user, when I start the application, I want to be given the option to load my saved movie contributions from the flatform database.
+- As a user, when I start the application, I want to be given the option to load my saved movie contributions from the platform database.
