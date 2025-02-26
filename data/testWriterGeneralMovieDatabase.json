@@ -1,0 +1,16 @@
+{
+    "movies": [
+      {
+        "name": "A1",
+        "yearReleased": 2025,
+        "genres": ["Drama"],
+        "rates": [
+          {
+            "userID": 1,
+            "score": 5
+          }
+        ],
+        "streamServices": ["Netflix", "DisneyPlus"]
+      }
+    ]
+  }

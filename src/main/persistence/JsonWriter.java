@@ -1,5 +1,7 @@
 package persistence;
 
+import model.MovieDataBase;
+
 // Represents a writer that writes JSON representation of MovieDataBase to file
 public class JsonWriter {
 
@@ -16,7 +18,7 @@ public class JsonWriter {
 
     // MODIFIES: this
     // EFFECTS: writes JSON representation of MovieDataBase to file
-    public void write() {
+    public void write(MovieDataBase dataBase) {
     }
 
     // MODIFIES: this
@@ -26,6 +28,6 @@ public class JsonWriter {
 
     // MODIFIES: this
     // EFFECTS: writes string to file
-    public void saveToFile() {
+    public void saveToFile(String json) {
     }
 }
