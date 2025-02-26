@@ -1,8 +1,8 @@
 {
     "movies": [
       {
-        "name": "A1",
-        "yearReleased": 2025,
+        "name": "m1",
+        "yearReleased": 2024,
         "genres": ["Drama"],
         "rates": [
           {
@@ -11,6 +11,18 @@
           }
         ],
         "streamServices": ["Netflix", "DisneyPlus"]
+      },
+      {
+        "name": "m2",
+        "yearReleased": 2025,
+        "genres": ["Action"],
+        "rates": [
+          {
+            "userID": 1,
+            "score": 6
+          }
+        ],
+        "streamServices": ["AppleTV"]
       }
     ]
   }
