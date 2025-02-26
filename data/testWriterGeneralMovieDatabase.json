@@ -1,28 +1,25 @@
-{
-    "movies": [
-      {
-        "name": "m1",
-        "yearReleased": 2024,
-        "genres": ["Drama"],
-        "rates": [
-          {
-            "userID": 1,
-            "score": 5
-          }
+{"movies": [
+    {
+        "stream services": [
+            {"name": "Netflix"},
+            {"name": "DisneyPlus"}
         ],
-        "streamServices": ["Netflix", "DisneyPlus"]
-      },
-      {
-        "name": "m2",
-        "yearReleased": 2025,
-        "genres": ["Action"],
-        "rates": [
-          {
-            "userID": 1,
-            "score": 6
-          }
-        ],
-        "streamServices": ["AppleTV"]
-      }
-    ]
-  }
+        "year released": 2024,
+        "genres": [{"genres": "Drama"}],
+        "rates": [{
+            "score": 5,
+            "userID": 1
+        }],
+        "name": "m1"
+    },
+    {
+        "stream services": [{"name": "AppleTV"}],
+        "year released": 2025,
+        "genres": [{"genres": "Action"}],
+        "rates": [{
+            "score": 6,
+            "userID": 1
+        }],
+        "name": "m2"
+    }
+]}

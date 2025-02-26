@@ -2,8 +2,12 @@ package model;
 
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+import org.json.JSONArray;
+import persistence.Writable;
+
 // Represents an movie having an title name, released year, genres, scores from users, available platforms to stream.
-public class Movie {
+public class Movie implements Writable{
     String name;
     int yearReleased;
     ArrayList<Genre> genres;
@@ -114,5 +118,47 @@ public class Movie {
     public ArrayList<StreamService> getStreamServices() {
         return this.streamServices;
     }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", this.name);
+        json.put("year released", this.yearReleased);
+        json.put("genres", genresToJson());
+        json.put("rates", ratesToJson());
+        json.put("stream services", streamServicesToJson());
+        return json;
+    }
+
+    private JSONArray genresToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Genre genre : this.genres) {
+            jsonArray.put(genre.toJson());
+        }
+
+        return jsonArray;
+    }
+
+    private JSONArray ratesToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Rate rate : this.rates) {
+            jsonArray.put(rate.toJson());
+        }
+
+        return jsonArray;
+    }
+
+    private JSONArray streamServicesToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (StreamService streamService : this.streamServices) {
+            jsonArray.put(streamService.toJson());
+        }
+
+        return jsonArray;
+    }
+
 }
 

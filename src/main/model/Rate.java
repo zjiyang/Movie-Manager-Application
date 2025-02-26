@@ -1,7 +1,11 @@
 package model;
 
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 // Represent a rate with score (0-5) from a userID 
-public class Rate {
+public class Rate implements Writable{
     int userID;
     int score;
 
@@ -19,6 +23,14 @@ public class Rate {
 
     public int getScore() {
         return this.score;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("userID", this.userID);
+        json.put("score", this.score);
+        return json;
     }
 
     // Define 5 Rate for userID 001, as public static final objects for test

@@ -2,8 +2,12 @@ package model;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 // Represents the data base, including all movies on this platform
-public class MovieDataBase {
+public class MovieDataBase implements Writable{
     private ArrayList<Movie> dataBase;
 
     // EFFECTS: Construct a empty movie database for the platform.
@@ -48,5 +52,22 @@ public class MovieDataBase {
         return this.dataBase;
     }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("movies", moviesToJson());
+        return json;
+    }
+
+    // EFFECTS: returns things in this database as a JSON array
+    private JSONArray moviesToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Movie movie : this.dataBase) {
+            jsonArray.put(movie.toJson());
+        }
+
+        return jsonArray;
+    }
 }
 
