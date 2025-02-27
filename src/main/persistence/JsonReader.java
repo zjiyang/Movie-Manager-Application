@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -74,7 +73,7 @@ public class JsonReader {
         movie.setYearReleased(yearReleased);
 
         // Parse genres (assumed to be an array of strings)
-        Map<String, Genre> genreMap = new HashMap<>();
+        Map<String, Genre> genreMap = new HashMap<String, Genre>();
         genreMap.put("Action", Genre.Action);
         genreMap.put("Drama", Genre.Drama);
         genreMap.put("Comedy", Genre.Comedy);
@@ -101,7 +100,7 @@ public class JsonReader {
         }
 
         // Parse stream services (assumed to be an array of strings)
-        Map<String, StreamService> ssMap = new HashMap();
+        Map<String, StreamService> ssMap = new HashMap<String, StreamService>();
         ssMap.put("Netflix", StreamService.Netflix);
         ssMap.put("DisneyPlus", StreamService.DisneyPlus);
         ssMap.put("AppleTV", StreamService.AppleTV);

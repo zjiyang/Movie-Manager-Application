@@ -1,0 +1,28 @@
+{
+    "movies": [
+      {
+        "name": "The Godfather",
+        "yearReleased": 1972,
+        "genres": ["Drama"],
+        "rates": [
+          {
+            "userID": 1,
+            "score": 8
+          }
+        ],
+        "streamServices": ["Netflix", "DisneyPlus"]
+      },
+      {
+        "name": "Black Swan",
+        "yearReleased": 2010,
+        "genres": ["Horror"],
+        "rates": [
+          {
+            "userID": 1,
+            "score": 9
+          }
+        ],
+        "streamServices": ["Netflix"]
+      }
+    ]
+  }

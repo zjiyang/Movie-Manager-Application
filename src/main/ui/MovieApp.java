@@ -1,41 +1,79 @@
 package ui;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import model.*;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 // Movie database application
 public class MovieApp {
+    private static final String JSON_STORE = "./data/MovieDataBase.json";
     private MovieDataBase movies;
     private Scanner input;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: runs the application
-    public MovieApp() {
+    public MovieApp() throws FileNotFoundException {
+        input = new Scanner(System.in);
+        movies = new MovieDataBase();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         runApp();
+    }
+
+    public void init() {
+        input = new Scanner(System.in);
+        System.out.println("load movies from database? (y/n)");
+        String loadChoice = input.next().toLowerCase();
+        if (loadChoice.equals("y")) {
+            loadMovieDataBase();
+        }
     }
 
     // MODIFIES: this
     // EFFECTS: processes user input
     private void runApp() {
-        boolean keepGoing = true;
-        String command = null;
-
+        input = new Scanner(System.in);
         init();
 
+        boolean keepGoing = true;
         while (keepGoing) {
+
             displayMenu();
-            command = input.next();
-            command = command.toLowerCase();
+            System.out.print("\nEnter your command: ");
+            String command = input.next().toLowerCase();
 
             if (command.equals("q")) {
+                System.out.println("\nDo you want to save your movies added to the file? (y/n)");
+                String saveChoice = input.next().toLowerCase();
+                if (saveChoice.equals("y")) {
+                    saveMovieDataBase();
+                    System.out.println("Thanks for your movie contribution!");
+                }
                 keepGoing = false;
             } else {
                 processCommand(command);
             }
         }
-
         System.out.println("\nGoodbye!");
+    }
+
+    // EFFECTS: displays menu of options to user
+    private void displayMenu() {
+        System.out.println("\nSelect from:");
+        System.out.println("\t1 -> add a movie");
+        System.out.println("\t2 -> rate a movie");
+        System.out.println("\t3 -> view all movies");
+        System.out.println("\t4 -> view recommendations");
+        System.out.println("\t5 -> find stream service for a movie");
+        System.out.println("\t6 -> save movie added to file");
+        System.out.println("\t7 -> load movie added from file");
+        System.out.println("\tq -> quit");
     }
 
     // MODIFIES: this
@@ -51,44 +89,13 @@ public class MovieApp {
             viewRecommendation();
         } else if (command.equals("5")) {
             findStreamService();
+        } else if (command.equals("6")) {
+            saveMovieDataBase();
+        } else if (command.equals("7")) {
+            loadMovieDataBase();
         } else {
             System.out.println("Selection not valid...");
         }
-    }
-
-    // MODIFIES: this
-    // EFFECTS: initializes MovieDataBase
-    private void init() {
-        movies = new MovieDataBase();
-        Movie movie1 = new Movie("The Godfather");
-        movie1.setYearReleased(1972);
-        movie1.addGenre(Genre.Drama);
-        movie1.addStreamService(StreamService.Netflix);
-        movie1.addStreamService(StreamService.DisneyPlus);
-        movie1.rateMovie(Rate.rate8);
-
-        Movie movie2 = new Movie("Black Swan");
-        movie2.setYearReleased(2010);
-        movie2.addGenre(Genre.Horror);
-        movie2.addStreamService(StreamService.Netflix);
-        movie2.rateMovie(Rate.rate9);
-
-        movies.addMovie(movie1);
-        movies.addMovie(movie2);
-
-        input = new Scanner(System.in);
-        input.useDelimiter("\r?\n|\r");
-    }
-
-    // EFFECTS: displays menu of options to user
-    private void displayMenu() {
-        System.out.println("\nSelect from:");
-        System.out.println("\t1 -> add a movie");
-        System.out.println("\t2 -> rate a movie");
-        System.out.println("\t3 -> view all movies");
-        System.out.println("\t4 -> view recommendations");
-        System.out.println("\t5 -> find stream service for a movie");
-        System.out.println("\tq -> quit");
     }
 
     // MODIFIES: this
@@ -298,6 +305,29 @@ public class MovieApp {
             for (int servicesindex = 0; (servicesindex <= (services.size() - 1)); servicesindex++) {
                 System.out.println((servicesindex + 1) + ". " + services.get(servicesindex).getStreamPlatformName());
             }
+        }
+    }
+
+    // EFFECTS: saves the MovieDataBase to file
+    private void saveMovieDataBase() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(movies);
+            jsonWriter.close();
+            System.out.println("Saved the Movie Database to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads MovieDataBase from file
+    private void loadMovieDataBase() {
+        try {
+            movies = jsonReader.read();
+            System.out.println("Loaded Movie Database from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
         }
     }
 }
