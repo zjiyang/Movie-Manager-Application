@@ -71,8 +71,8 @@ public class MovieApp {
         System.out.println("\t3 -> view all movies");
         System.out.println("\t4 -> view recommendations");
         System.out.println("\t5 -> find stream service for a movie");
-        System.out.println("\t6 -> save movie added to file");
-        System.out.println("\t7 -> load movie added from file");
+        System.out.println("\t6 -> save current movie database to file");
+        System.out.println("\t7 -> load last movie database from file");
         System.out.println("\tq -> quit");
     }
 
@@ -101,18 +101,24 @@ public class MovieApp {
     // MODIFIES: this
     // EFFECTS: add a Movie to the database
     private void addMovie() {
+        input.nextLine();
         System.out.print("Enter the title: ");
-        String name = input.next();
+        String name = input.nextLine();
         Movie movie = new Movie(name);
+
         System.out.print("Enter the year released: ");
         int yearReleased = input.nextInt();
         movie.setYearReleased(yearReleased);
-        System.out.print("Let's add a genre to it. ");
+
+        System.out.print("\nLet's add a genre to it. ");
         this.setGenre(movie);
+
         System.out.print("How would you rate the movie? ");
         this.rateExistMovie(movie);
+
         System.out.print("Any known Stream service provider? ");
         this.setStreamService(movie);
+
         movies.addMovie(movie);
         System.out.print("the movie is added to the database!");
     }
