@@ -31,12 +31,12 @@ class JsonWriterTest extends JsonTest {
     void testWriterEmptyWorkroom() {
         try {
             MovieDataBase database = new MovieDataBase();
-            JsonWriter writer = new JsonWriter("./data/testEmptyMovieDataBase.json");
+            JsonWriter writer = new JsonWriter("./data/testWriterEmptyMovieDataBase.json");
             writer.open();
             writer.write(database);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testEmptyMovieDataBase.json");
+            JsonReader reader = new JsonReader("./data/testWriterEmptyMovieDataBase.json");
             database = reader.read();
         } catch (IOException e) {
             fail("Exception should not have been thrown");
@@ -91,7 +91,7 @@ class JsonWriterTest extends JsonTest {
             testSS1.add(StreamService.Netflix);
             testSS1.add(StreamService.DisneyPlus);
             ArrayList<StreamService> testSS2 = new ArrayList<StreamService>();
-            testSS1.add(StreamService.AppleTV);
+            testSS2.add(StreamService.AppleTV);
 
             assertEquals(2, movies.size());
             checkMovie(movies.get(0), "m1", 2024, testGenres1, testRates1, testSS1);

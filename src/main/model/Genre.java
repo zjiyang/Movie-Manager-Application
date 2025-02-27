@@ -1,11 +1,7 @@
 package model;
 
-import org.json.JSONObject;
-
-import persistence.Writable;
-
 //Represents genre of a movie 
-public class Genre implements Writable{
+public class Genre {
     private String name;
 
     // EFFECTS: Construct a genre with given name.
@@ -27,13 +23,5 @@ public class Genre implements Writable{
     public static final Genre Sci_Fi = new Genre("Sci-Fi");
     public static final Genre Animation = new Genre("Animation");
     public static final Genre Documentary = new Genre("Documentary");
-
-    @Override
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-        json.put("genres", this.name);
-        return json;
-    }
-
 }
 

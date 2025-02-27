@@ -123,38 +123,31 @@ public class Movie implements Writable{
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("name", this.name);
-        json.put("year released", this.yearReleased);
-        json.put("genres", genresToJson());
+        json.put("yearReleased", this.yearReleased);
+        
+        JSONArray genresArray = new JSONArray();
+        for (Genre genre : this.genres) {
+            genresArray.put(genre.getGenreName());
+        }
+        json.put("genres", genresArray);
+        
         json.put("rates", ratesToJson());
-        json.put("stream services", streamServicesToJson());
+        
+        JSONArray streamServicesArray = new JSONArray();
+        for (StreamService service : this.streamServices) {
+            streamServicesArray.put(service.getStreamPlatformName());
+        }
+        json.put("streamServices", streamServicesArray);
+        
         return json;
     }
 
-    private JSONArray genresToJson() {
-        JSONArray jsonArray = new JSONArray();
-
-        for (Genre genre : this.genres) {
-            jsonArray.put(genre.toJson());
-        }
-
-        return jsonArray;
-    }
 
     private JSONArray ratesToJson() {
         JSONArray jsonArray = new JSONArray();
 
         for (Rate rate : this.rates) {
             jsonArray.put(rate.toJson());
-        }
-
-        return jsonArray;
-    }
-
-    private JSONArray streamServicesToJson() {
-        JSONArray jsonArray = new JSONArray();
-
-        for (StreamService streamService : this.streamServices) {
-            jsonArray.put(streamService.toJson());
         }
 
         return jsonArray;

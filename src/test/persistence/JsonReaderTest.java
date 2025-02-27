@@ -29,7 +29,7 @@ class JsonReaderTest extends JsonTest {
 
     @Test
     void testReaderEmptyWorkRoom() {
-        JsonReader reader = new JsonReader("./data/testEmptyMovieDataBase.json");
+        JsonReader reader = new JsonReader("./data/testReaderEmptyMovieDataBase.json");
         try {
             MovieDataBase dataBase = reader.read();
             assertTrue(dataBase.getDataBase().isEmpty());
@@ -40,7 +40,7 @@ class JsonReaderTest extends JsonTest {
 
     @Test
     void testReaderGeneralWorkRoom() {
-        JsonReader reader = new JsonReader("./data/testGeneralMovieDataBase.json");
+        JsonReader reader = new JsonReader("./data/testReaderGeneralMovieDataBase.json");
         try {
             MovieDataBase dataBase = reader.read();
             ArrayList<Movie> movies = dataBase.getDataBase();
@@ -75,10 +75,10 @@ class JsonReaderTest extends JsonTest {
             testSS1.add(StreamService.Netflix);
             testSS1.add(StreamService.DisneyPlus);
             ArrayList<StreamService> testSS2 = new ArrayList<StreamService>();
-            testSS1.add(StreamService.AppleTV);
+            testSS2.add(StreamService.AppleTV);
 
-            dataBase.addMovie(m1);
-            dataBase.addMovie(m2);
+            // dataBase.addMovie(m1);
+            // dataBase.addMovie(m2);
 
             assertEquals(2, movies.size());
             checkMovie(movies.get(0), "m1", 2024, testGenres1, testRates1, testSS1);
