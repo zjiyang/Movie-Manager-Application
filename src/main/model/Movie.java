@@ -7,7 +7,7 @@ import org.json.JSONArray;
 import persistence.Writable;
 
 // Represents an movie having an title name, released year, genres, scores from users, available platforms to stream.
-public class Movie implements Writable{
+public class Movie implements Writable {
     String name;
     int yearReleased;
     ArrayList<Genre> genres;

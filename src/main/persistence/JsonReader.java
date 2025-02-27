@@ -63,6 +63,7 @@ public class JsonReader {
 
     // MODIFIES: database
     // EFFECTS: parses Movie from JSON object and adds it to MovieDatabase
+    @SuppressWarnings("methodlength")
     private void addMovie(MovieDataBase database, JSONObject jsonObject) {
         // Extract basic fields
         String name = jsonObject.getString("name");

@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import persistence.Writable;
 
 // Represent a rate with score (0-5) from a userID 
-public class Rate implements Writable{
+public class Rate implements Writable {
     int userID;
     int score;
 

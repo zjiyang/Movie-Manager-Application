@@ -1,7 +1,7 @@
 package model;
 
 //Represents Stream Platform for watch movie online
-public class StreamService{
+public class StreamService {
     private String name;
 
     // EFFECTS: Construct a movie stream service provider with given name.

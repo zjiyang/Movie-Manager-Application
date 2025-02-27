@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import persistence.Writable;
 
 // Represents the data base, including all movies on this platform
-public class MovieDataBase implements Writable{
+public class MovieDataBase implements Writable {
     private ArrayList<Movie> dataBase;
 
     // EFFECTS: Construct a empty movie database for the platform.
