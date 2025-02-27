@@ -2,7 +2,7 @@ package ui;
 
 import java.io.FileNotFoundException;
 
-// launch the app
+// Launch the app and catch the file not found exception 
 public class Main {
     public static void main(String[] args) throws Exception {
         try {

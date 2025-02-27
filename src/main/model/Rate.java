@@ -25,6 +25,7 @@ public class Rate implements Writable {
         return this.score;
     }
 
+    // EFFECTS: write to json according to rate's user and score
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
