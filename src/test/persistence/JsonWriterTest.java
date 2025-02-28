@@ -26,7 +26,7 @@ class JsonWriterTest extends JsonTest {
     }
 
     @Test
-    void testWriterEmptyWorkroom() {
+    void testWriterEmptyMovieDataBase() {
         try {
             MovieDataBase database = new MovieDataBase();
             JsonWriter writer = new JsonWriter("./data/testWriterEmptyMovieDataBase.json");
@@ -42,7 +42,7 @@ class JsonWriterTest extends JsonTest {
     }
 
     @Test
-    void testWriterGeneralWorkroom() {
+    void testWriterGeneralMovieDataBase() {
         try {
             MovieDataBase database = new MovieDataBase();
 

@@ -27,7 +27,7 @@ class JsonReaderTest extends JsonTest {
     }
 
     @Test
-    void testReaderEmptyWorkRoom() {
+    void testReaderEmptyMovieDataBase() {
         JsonReader reader = new JsonReader("./data/testReaderEmptyMovieDataBase.json");
         try {
             MovieDataBase dataBase = reader.read();
@@ -38,7 +38,7 @@ class JsonReaderTest extends JsonTest {
     }
 
     @Test
-    void testReaderGeneralWorkRoom() {
+    void testReaderGeneralMovieDataBase() {
         JsonReader reader = new JsonReader("./data/testReaderGeneralMovieDataBase.json");
         try {
             MovieDataBase dataBase = reader.read();

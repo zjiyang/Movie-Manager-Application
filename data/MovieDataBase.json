@@ -31,5 +31,15 @@
             "userID": 1
         }],
         "name": "The Outrun"
+    },
+    {
+        "streamServices": ["PrimeVideo"],
+        "genres": ["Romance"],
+        "yearReleased": 2016,
+        "rates": [{
+            "score": 10,
+            "userID": 1
+        }],
+        "name": "La La Land"
     }
 ]}
