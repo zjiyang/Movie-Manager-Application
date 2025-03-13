@@ -44,16 +44,6 @@
     },
     {
         "streamServices": ["Netflix"],
-        "genres": ["Drama"],
-        "yearReleased": 2023,
-        "rates": [{
-            "score": 9,
-            "userID": 1
-        }],
-        "name": "There's Still Tomorrow"
-    },
-    {
-        "streamServices": ["Netflix"],
         "genres": ["Romance"],
         "yearReleased": 2024,
         "rates": [{
@@ -61,5 +51,18 @@
             "userID": 1
         }],
         "name": "Anora"
+    },
+    {
+        "streamServices": ["Only In Theater"],
+        "genres": [
+            "Drama",
+            "Comedy"
+        ],
+        "yearReleased": 2023,
+        "rates": [{
+            "score": 9,
+            "userID": 1
+        }],
+        "name": "There's Still Tomorrow"
     }
 ]}

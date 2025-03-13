@@ -64,13 +64,13 @@ public class MovieAppGUI extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            String name = JOptionPane.showInputDialog("Enter movie title:");
+            String name = JOptionPane.showInputDialog("Enter movie title:", "MovieName");
             if (name == null || name.trim().isEmpty()) {
                 return;
             }
             
             Movie movie = new Movie(name);
-            String yearStr = JOptionPane.showInputDialog("Enter year released:");
+            String yearStr = JOptionPane.showInputDialog("Enter year released:","1234");
             movie.setYearReleased(Integer.parseInt(yearStr));
             setGenre(movie);
             rateMovie(movie);
@@ -81,22 +81,68 @@ public class MovieAppGUI extends JFrame {
     }
 
     private void setGenre(Movie movie) {
-        String[] genres = {"Action", "Drama", "Comedy", "Horror", "Romance"};
-        String choice = (String) JOptionPane.showInputDialog(null, "Select genre:", "Genre",
-                JOptionPane.QUESTION_MESSAGE, null, genres, genres[0]);
-        if (choice != null) {
-            movie.addGenre(new Genre(choice));
+        JPanel panel = new JPanel(new GridLayout(0, 1));
+        JCheckBox action = new JCheckBox("Action");
+        JCheckBox drama = new JCheckBox("Drama");
+        JCheckBox comedy = new JCheckBox("Comedy");
+        JCheckBox horror = new JCheckBox("Horror");
+        JCheckBox romance = new JCheckBox("Romance");
+
+        panel.add(new JLabel("Select Genres:"));
+        panel.add(action);
+        panel.add(drama);
+        panel.add(comedy);
+        panel.add(horror);
+        panel.add(romance);
+
+        int option = JOptionPane.showConfirmDialog(null, panel, "Select Genres", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (option == JOptionPane.OK_OPTION) {
+            if (action.isSelected()) movie.addGenre(new Genre("Action"));
+            if (drama.isSelected()) movie.addGenre(new Genre("Drama"));
+            if (comedy.isSelected()) movie.addGenre(new Genre("Comedy"));
+            if (horror.isSelected()) movie.addGenre(new Genre("Horror"));
+            if (romance.isSelected()) movie.addGenre(new Genre("Romance"));
         }
     }
 
+
     private void rateMovie(Movie movie) {
-        String userID = JOptionPane.showInputDialog("Rate the movie by entering your User ID:");
-        String rateScore = JOptionPane.showInputDialog("Your score from 0 to 10: ");
-        movie.rateMovie(new Rate(Integer.parseInt(userID), Integer.parseInt(rateScore)));
+        JPanel panel = new JPanel(new GridLayout(2, 1));
+        JTextField userIDField = new JTextField();
+        
+        // Create a JSlider for selecting the score (0 - 10)    
+        JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 10, 5); // Default value: 5
+        slider.setPreferredSize(new Dimension(400, 50));
+        slider.setMajorTickSpacing(1);
+        slider.setPaintTicks(true);
+        slider.setPaintLabels(true);
+        
+        // Add labels to the slider
+        java.util.Hashtable<Integer, JLabel> labelTable = new java.util.Hashtable<>();
+        labelTable.put(0, new JLabel("Bad"));
+        labelTable.put(5, new JLabel("Average"));
+        labelTable.put(10, new JLabel("Excellent"));
+        slider.setLabelTable(labelTable);
+        
+        panel.add(new JLabel("Enter your User ID Number:"));
+        panel.add(userIDField);
+        panel.add(new JLabel("Select Rating (0 - 10):"));
+        panel.add(slider);
+        
+        int option = JOptionPane.showConfirmDialog(null, panel, "Rate Movie", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (option == JOptionPane.OK_OPTION) {
+            try {
+                int userID = Integer.parseInt(userIDField.getText().trim());
+                int rateScore = slider.getValue();  // Get the selected value from the slider
+                movie.rateMovie(new Rate(userID, rateScore));
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Invalid User ID! Please enter a number.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     private void setStreamService(Movie movie) {
-        String[] services = {"Netflix", "DisneyPlus", "AppleTV", "PrimeVideo"};
+        String[] services = {"Netflix", "DisneyPlus", "AppleTV", "PrimeVideo", "Only In Theater"};
         String choice = (String) JOptionPane.showInputDialog(null, "Select stream service:", "Stream Service",
                 JOptionPane.QUESTION_MESSAGE, null, services, services[0]);
         if (choice != null) { 
