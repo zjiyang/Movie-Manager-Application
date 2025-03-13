@@ -65,20 +65,13 @@ public class MovieAppGUI extends JFrame {
         @Override
         public void actionPerformed(ActionEvent evt) {
             String name = JOptionPane.showInputDialog("Enter movie title:");
-            if (name == null || name.trim().isEmpty()) return;
+            if (name == null || name.trim().isEmpty()) {
+                return;
+            }
             
             Movie movie = new Movie(name);
             String yearStr = JOptionPane.showInputDialog("Enter year released:");
-            //try { movie.setYearReleased(Integer.parseInt(yearStr)); } catch (NumberFormatException e) {}
-
-            try { 
-                int year = Integer.parseInt(yearStr);
-                movie.setYearReleased(year);
-                System.out.println("DEBUG: Year stored in object -> " + movie.getYearReleased()); // Add this for debugging
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Invalid year! Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            
+            movie.setYearReleased(Integer.parseInt(yearStr));
             setGenre(movie);
             rateMovie(movie);
             setStreamService(movie);
@@ -91,16 +84,14 @@ public class MovieAppGUI extends JFrame {
         String[] genres = {"Action", "Drama", "Comedy", "Horror", "Romance"};
         String choice = (String) JOptionPane.showInputDialog(null, "Select genre:", "Genre",
                 JOptionPane.QUESTION_MESSAGE, null, genres, genres[0]);
-        if (choice != null) movie.addGenre(new Genre(choice));
+        if (choice != null) {
+            movie.addGenre(new Genre(choice));
+        }
     }
 
     private void rateMovie(Movie movie) {
         String userID = JOptionPane.showInputDialog("Rate the movie by entering your User ID:");
-        try { movie.setYearReleased(Integer.parseInt(userID)); } catch (NumberFormatException e) {}
-
         String rateScore = JOptionPane.showInputDialog("Your score from 0 to 10: ");
-        try { movie.setYearReleased(Integer.parseInt(rateScore)); } catch (NumberFormatException e) {}
-        
         movie.rateMovie(new Rate(Integer.parseInt(userID), Integer.parseInt(rateScore)));
     }
 
@@ -108,7 +99,9 @@ public class MovieAppGUI extends JFrame {
         String[] services = {"Netflix", "DisneyPlus", "AppleTV", "PrimeVideo"};
         String choice = (String) JOptionPane.showInputDialog(null, "Select stream service:", "Stream Service",
                 JOptionPane.QUESTION_MESSAGE, null, services, services[0]);
-        if (choice != null) movie.addStreamService(new StreamService(choice));
+        if (choice != null) { 
+            movie.addStreamService(new StreamService(choice));
+        }
     }
 
     private class RateMovieAction extends AbstractAction {
@@ -173,7 +166,8 @@ public class MovieAppGUI extends JFrame {
         movieListModel.clear();
         for (Movie movie : movies.getDataBase()) {
             double avgScore = movie.averageScore();
-            movieListModel.addElement(index + ". " + movie.getName() + " - " + movie.getYearReleased() + " - Average Score: " + avgScore);
+            movieListModel.addElement(index + ". " 
+                        + movie.getName() + " - " + movie.getYearReleased() + " - Average Score: " + avgScore);
             index++;
         }
     }
