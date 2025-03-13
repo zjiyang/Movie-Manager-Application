@@ -1,28 +1,65 @@
-{
-    "movies": [
-      {
-        "name": "The Godfather",
-        "yearReleased": 1972,
+{"movies": [
+    {
+        "streamServices": [
+            "Netflix",
+            "DisneyPlus"
+        ],
         "genres": ["Drama"],
-        "rates": [
-          {
-            "userID": 1,
-            "score": 8
-          }
-        ],
-        "streamServices": ["Netflix", "DisneyPlus"]
-      },
-      {
-        "name": "Black Swan",
-        "yearReleased": 2010,
+        "yearReleased": 1972,
+        "rates": [{
+            "score": 8,
+            "userID": 1
+        }],
+        "name": "The Godfather"
+    },
+    {
+        "streamServices": ["Netflix"],
         "genres": ["Horror"],
-        "rates": [
-          {
-            "userID": 1,
-            "score": 9
-          }
-        ],
-        "streamServices": ["Netflix"]
-      }
-    ]
-  }
+        "yearReleased": 2010,
+        "rates": [{
+            "score": 9,
+            "userID": 1
+        }],
+        "name": "Black Swan"
+    },
+    {
+        "streamServices": ["PrimeVideo"],
+        "genres": ["Drama"],
+        "yearReleased": 2024,
+        "rates": [{
+            "score": 9,
+            "userID": 1
+        }],
+        "name": "The Outrun"
+    },
+    {
+        "streamServices": ["PrimeVideo"],
+        "genres": ["Romance"],
+        "yearReleased": 2016,
+        "rates": [{
+            "score": 10,
+            "userID": 1
+        }],
+        "name": "La La Land"
+    },
+    {
+        "streamServices": ["Netflix"],
+        "genres": ["Drama"],
+        "yearReleased": 2023,
+        "rates": [{
+            "score": 9,
+            "userID": 1
+        }],
+        "name": "There's Still Tomorrow"
+    },
+    {
+        "streamServices": ["Netflix"],
+        "genres": ["Romance"],
+        "yearReleased": 2024,
+        "rates": [{
+            "score": 7,
+            "userID": 1
+        }],
+        "name": "Anora"
+    }
+]}

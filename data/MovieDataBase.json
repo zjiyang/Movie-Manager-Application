@@ -41,5 +41,25 @@
             "userID": 1
         }],
         "name": "La La Land"
+    },
+    {
+        "streamServices": ["Netflix"],
+        "genres": ["Drama"],
+        "yearReleased": 2023,
+        "rates": [{
+            "score": 9,
+            "userID": 1
+        }],
+        "name": "There's Still Tomorrow"
+    },
+    {
+        "streamServices": ["Netflix"],
+        "genres": ["Romance"],
+        "yearReleased": 2024,
+        "rates": [{
+            "score": 7,
+            "userID": 1
+        }],
+        "name": "Anora"
     }
 ]}

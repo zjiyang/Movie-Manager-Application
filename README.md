@@ -21,3 +21,11 @@ This project stands out because it focuses on enhancing the movie experience. It
 - As a user, I want to find out which streaming services have a particular movie available.
 - As a user, when I select the quit option from the application menu, I want to be reminded to save my movie contributions to the platform database and have the option to do so or not.
 - As a user, when I start the application, I want to be given the option to load my saved movie contributions from the platform database.
+
+## Instructions for End User
+
+- You can contribute a new movie to the platform by providing its title, release year, genre, and streaming platform availability by clicking the "Add Movie" button. 
+- You can add multiple movies by repeating the step above.
+- You can load the data base by clicking "File", then "Load Movies" form menu.
+- You can save your new added movies to the database by clicking "File", then "Save Movies" form menu.
+- You can view all movies in the database, along with released year and average score infomation, in the middle of this application interface.
