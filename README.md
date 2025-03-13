@@ -26,6 +26,7 @@ This project stands out because it focuses on enhancing the movie experience. It
 
 - You can contribute a new movie to the platform by providing its title, release year, genre, and streaming platform availability by clicking the "Add Movie" button. 
 - You can add multiple movies by repeating the step above.
+- You can rate a movie by using slider scaled from 0 to 10.
 - You can load the data base by clicking "File", then "Load Movies" form menu.
 - You can save your new added movies to the database by clicking "File", then "Save Movies" form menu.
 - You can view all movies in the database, along with released year and average score infomation, in the middle of this application interface.
