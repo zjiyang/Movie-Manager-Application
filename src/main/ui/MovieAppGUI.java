@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+//Represents a graphical user interface allow user to act multiple function and interact with database
 public class MovieAppGUI extends JFrame {
     private static final String JSON_STORE = "./data/MovieDataBase.json";
     private MovieDataBase movies;
@@ -18,6 +19,7 @@ public class MovieAppGUI extends JFrame {
     private DefaultListModel<String> movieListModel;
     private JList<String> movieList;
     
+    //EFFECTS: constructor create a GUI
     public MovieAppGUI() {
         super("Movie Database");
         setSize(450, 600);
@@ -35,6 +37,7 @@ public class MovieAppGUI extends JFrame {
         setVisible(true);
     }
 
+    //EFFECTS: Adds a menu bar called "File" with load and save options.
     private void addMenu() {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
@@ -44,12 +47,14 @@ public class MovieAppGUI extends JFrame {
         setJMenuBar(menuBar);
     }
 
+    //EFFECTS: Initializes the movie list panel and adds it to the main window.
     private void addMovieListPanel() {
         movieListModel = new DefaultListModel<>();
         movieList = new JList<>(movieListModel);
         add(new JScrollPane(movieList), BorderLayout.CENTER);
     }
 
+    //EFFECTS: Initializes and adds buttons for adding and rating movies.
     private void addButtonPanel() {
         JPanel buttonPanel = new JPanel(new GridLayout(2, 2));
         buttonPanel.add(new JButton(new AddMovieAction()));
@@ -57,6 +62,7 @@ public class MovieAppGUI extends JFrame {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    //EFFECTS: Prompts user for movie details and adds the movie to the database.
     private class AddMovieAction extends AbstractAction {
         AddMovieAction() {
             super("Add Movie");
@@ -80,6 +86,8 @@ public class MovieAppGUI extends JFrame {
         }
     }
 
+    //MODIFIES: movie
+    //EFFECTS: Allows user to select multiple genres for the given movie.
     private void setGenre(Movie movie) {
         JPanel panel = new JPanel(new GridLayout(0, 1));
         JCheckBox action = new JCheckBox("Action");
@@ -105,7 +113,9 @@ public class MovieAppGUI extends JFrame {
         }
     }
 
-
+    //REQUIRES: User ID must be a valid integer.
+    //MODIFIES: movie
+    //EFFECTS: Prompts user to rate a movie using a slider.
     private void rateMovie(Movie movie) {
         JPanel panel = new JPanel(new GridLayout(2, 1));
         JTextField userIDField = new JTextField();
@@ -119,9 +129,9 @@ public class MovieAppGUI extends JFrame {
         
         // Add labels to the slider
         java.util.Hashtable<Integer, JLabel> labelTable = new java.util.Hashtable<>();
-        labelTable.put(0, new JLabel("Bad"));
-        labelTable.put(5, new JLabel("Average"));
-        labelTable.put(10, new JLabel("Excellent"));
+        labelTable.put(0, new JLabel("0: Bad"));
+        labelTable.put(5, new JLabel("5: Average"));
+        labelTable.put(10, new JLabel("10: Excellent"));
         slider.setLabelTable(labelTable);
         
         panel.add(new JLabel("Enter your User ID Number:"));
@@ -137,10 +147,12 @@ public class MovieAppGUI extends JFrame {
                 movie.rateMovie(new Rate(userID, rateScore));
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Invalid User ID! Please enter a number.", "Error", JOptionPane.ERROR_MESSAGE);
+                rateMovie(movie);
             }
         }
     }
-
+    //MODIFIES: movie
+    //EFFECTS: Allows user to select multiple StreamService for the given movie.
     private void setStreamService(Movie movie) {
         String[] services = {"Netflix", "DisneyPlus", "AppleTV", "PrimeVideo", "Only In Theater"};
         String choice = (String) JOptionPane.showInputDialog(null, "Select stream service:", "Stream Service",
@@ -150,6 +162,7 @@ public class MovieAppGUI extends JFrame {
         }
     }
 
+    //EFFECTS: Prompts user to rate an existing movie if found in the database.
     private class RateMovieAction extends AbstractAction {
         RateMovieAction() {
             super("Rate Movie");
@@ -171,6 +184,7 @@ public class MovieAppGUI extends JFrame {
         }
     }
 
+    //EFFECTS: Saves the movie database to a file.
     private class SaveMoviesAction extends AbstractAction {
         SaveMoviesAction() {
             super("Save Movies");
@@ -189,6 +203,8 @@ public class MovieAppGUI extends JFrame {
         }
     }
 
+    //MODIFIES: movies
+    //EFFECTS: Loads the movie database from a file.
     private class LoadMoviesAction extends AbstractAction {
         LoadMoviesAction() {
             super("Load Movies");
@@ -206,6 +222,8 @@ public class MovieAppGUI extends JFrame {
         }
     }
 
+    //MODIFIES: movieListModel
+    //EFFECTS: Updates the movie list display with current movie data.
     private void updateMovieList() {
         movieListModel.clear();
         int index = 1;
