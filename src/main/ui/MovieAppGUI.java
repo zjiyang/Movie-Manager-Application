@@ -91,6 +91,7 @@ public class MovieAppGUI extends JFrame {
 
     // MODIFIES: movie
     // EFFECTS: Allows user to select multiple genres for the given movie.
+    @SuppressWarnings("methodlength")
     private void setGenre(Movie movie) {
         JPanel panel = new JPanel(new GridLayout(0, 1));
         JCheckBox action = new JCheckBox("Action");
@@ -109,22 +110,29 @@ public class MovieAppGUI extends JFrame {
         int option = JOptionPane.showConfirmDialog(null, panel, "Select Genres", JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE);
         if (option == JOptionPane.OK_OPTION) {
-            if (action.isSelected())
+            if (action.isSelected()) {
                 movie.addGenre(new Genre("Action"));
-            if (drama.isSelected())
+            }
+            if (drama.isSelected()) {
                 movie.addGenre(new Genre("Drama"));
-            if (comedy.isSelected())
+            }  
+            if (comedy.isSelected()) {
                 movie.addGenre(new Genre("Comedy"));
-            if (horror.isSelected())
+            } 
+            if (horror.isSelected()) {
                 movie.addGenre(new Genre("Horror"));
-            if (romance.isSelected())
+            }
+            if (romance.isSelected()) {
                 movie.addGenre(new Genre("Romance"));
+            }
+                
         }
     }
 
     // REQUIRES: User ID must be a valid integer.
     // MODIFIES: movie
     // EFFECTS: Prompts user to rate a movie using a slider.
+    @SuppressWarnings("methodlength")
     private void rateMovie(Movie movie) {
         JPanel panel = new JPanel(new GridLayout(2, 1));
         JTextField userIDField = new JTextField();
