@@ -19,6 +19,7 @@ public class MovieDataBase implements Writable {
     // EFFECTS: add given movie to the database.
     public void addMovie(Movie movie) {
         this.dataBase.add(movie);
+        EventLog.getInstance().logEvent(new Event("Added movie: " + movie.getName() + " to the Movie Database."));
     }
 
     // EFFECTS: produce a movie list by flitering the given genre

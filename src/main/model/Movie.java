@@ -29,6 +29,7 @@ public class Movie implements Writable {
     // EFFECTS: set the released year
     public void setYearReleased(int yearReleased) {
         this.yearReleased = yearReleased;
+        EventLog.getInstance().logEvent(new Event("Set released year " + yearReleased + " to movie " + this.name));
     }
 
     // MODIFIES: this
@@ -37,6 +38,7 @@ public class Movie implements Writable {
         if (!(this.genres.contains(genre))) {
             this.genres.add(genre);
         }
+        EventLog.getInstance().logEvent(new Event("Added genre " + genre.getGenreName() + " to movie " + this.name));
     }
 
     // EFFECTS: true if this rate's user rated this movie before
@@ -62,6 +64,9 @@ public class Movie implements Writable {
                 }
             }
         }
+
+        EventLog.getInstance().logEvent(
+                new Event("User " + rate.getUserID() + " rated " + this.name + " with score " + rate.getScore()));
     }
 
     // REQUIRES: rates contains a rate provided by given userID
@@ -95,7 +100,8 @@ public class Movie implements Writable {
         if (!(this.streamServices.contains(streamService))) {
             this.streamServices.add(streamService);
         }
-
+        EventLog.getInstance().logEvent(new Event("Added stream service "
+                + streamService.getStreamPlatformName() + " to movie " + this.name));
     }
 
     // below are getters
@@ -124,24 +130,23 @@ public class Movie implements Writable {
         JSONObject json = new JSONObject();
         json.put("name", this.name);
         json.put("yearReleased", this.yearReleased);
-        
+
         JSONArray genresArray = new JSONArray();
         for (Genre genre : this.genres) {
             genresArray.put(genre.getGenreName());
         }
         json.put("genres", genresArray);
-        
+
         json.put("rates", ratesToJson());
-        
+
         JSONArray streamServicesArray = new JSONArray();
         for (StreamService service : this.streamServices) {
             streamServicesArray.put(service.getStreamPlatformName());
         }
         json.put("streamServices", streamServicesArray);
-        
+
         return json;
     }
-
 
     private JSONArray ratesToJson() {
         JSONArray jsonArray = new JSONArray();
@@ -154,4 +159,3 @@ public class Movie implements Writable {
     }
 
 }
-

@@ -30,3 +30,11 @@ This project stands out because it focuses on enhancing the movie experience. It
 - You can load the data base by clicking "File", then "Load Movies" form menu.
 - You can save your new added movies to the database by clicking "File", then "Save Movies" form menu.
 - You can view all movies in the database, along with released year and average score infomation, in the middle of this application interface.
+
+## Phase 4: Task 2
+- Set released year 2000 to movie MovieName
+- Added genre Drama to movie MovieName
+- Added genre Comedy to movie MovieName
+- User 1 rated MovieName with score 6
+- Added stream service Netflix to movie MovieName
+- Added movie: MovieName to the Movie Database.

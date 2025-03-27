@@ -1,6 +1,7 @@
 package ui;
 
 import model.*;
+import model.Event;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -26,7 +27,8 @@ public class MovieAppGUI extends JFrame {
     public MovieAppGUI() {
         super("Movie Database");
         setSize(width, height);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLayout(new BorderLayout());
 
         jsonWriter = new JsonWriter(JSON_STORE);
@@ -38,8 +40,25 @@ public class MovieAppGUI extends JFrame {
         addButtonPanel();
 
         setVisible(true);
+
+        addWindowListener(new java.awt.event.WindowListener() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                printEventLog();    // Print the log to console
+                dispose();          // Close the window
+                System.exit(0);     // End the program
+            }
+        
+            @Override public void windowOpened(java.awt.event.WindowEvent e) {}
+            @Override public void windowClosed(java.awt.event.WindowEvent e) {}
+            @Override public void windowIconified(java.awt.event.WindowEvent e) {}
+            @Override public void windowDeiconified(java.awt.event.WindowEvent e) {}
+            @Override public void windowActivated(java.awt.event.WindowEvent e) {}
+            @Override public void windowDeactivated(java.awt.event.WindowEvent e) {}
+        });
     }
 
+    
     // EFFECTS: Adds a menu bar called "File" with load and save options.
     private void addMenu() {
         JMenuBar menuBar = new JMenuBar();
@@ -286,5 +305,11 @@ public class MovieAppGUI extends JFrame {
     public static void main(String[] args) {
         showSplashScreen();
         SwingUtilities.invokeLater(MovieAppGUI::new);
+    }
+
+    private void printEventLog() {
+        for (Event event : EventLog.getInstance()) {
+            System.out.println(event.toString());
+        }
     }
 }
