@@ -32,6 +32,7 @@ This project stands out because it focuses on enhancing the movie experience. It
 - You can view all movies in the database, along with released year and average score infomation, in the middle of this application interface.
 
 ## Phase 4: Task 2
+Some samples of Events:
 - Set released year 2000 to movie MovieName
 - Added genre Drama to movie MovieName
 - Added genre Comedy to movie MovieName

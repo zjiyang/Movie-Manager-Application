@@ -24,6 +24,7 @@ public class MovieAppGUI extends JFrame {
 
 
     // EFFECTS: constructor create a GUI
+    @SuppressWarnings("methodlength")
     public MovieAppGUI() {
         super("Movie Database");
         setSize(width, height);
@@ -49,12 +50,35 @@ public class MovieAppGUI extends JFrame {
                 System.exit(0);     // End the program
             }
         
-            @Override public void windowOpened(java.awt.event.WindowEvent e) {}
-            @Override public void windowClosed(java.awt.event.WindowEvent e) {}
-            @Override public void windowIconified(java.awt.event.WindowEvent e) {}
-            @Override public void windowDeiconified(java.awt.event.WindowEvent e) {}
-            @Override public void windowActivated(java.awt.event.WindowEvent e) {}
-            @Override public void windowDeactivated(java.awt.event.WindowEvent e) {}
+            @Override 
+            public void windowOpened(java.awt.event.WindowEvent e) {
+
+            }
+
+            @Override 
+            public void windowClosed(java.awt.event.WindowEvent e) {
+
+            }
+
+            @Override 
+            public void windowIconified(java.awt.event.WindowEvent e) {
+
+            }
+
+            @Override 
+            public void windowDeiconified(java.awt.event.WindowEvent e) {
+
+            }
+
+            @Override 
+            public void windowActivated(java.awt.event.WindowEvent e) {
+
+            }
+
+            @Override 
+            public void windowDeactivated(java.awt.event.WindowEvent e) {
+
+            }
         });
     }
 
