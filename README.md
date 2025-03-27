@@ -33,9 +33,15 @@ This project stands out because it focuses on enhancing the movie experience. It
 
 ## Phase 4: Task 2
 Some samples of Events:
-- Set released year 2000 to movie MovieName
-- Added genre Drama to movie MovieName
-- Added genre Comedy to movie MovieName
-- User 1 rated MovieName with score 6
-- Added stream service Netflix to movie MovieName
-- Added movie: MovieName to the Movie Database.
+Thu Mar 27 10:45:58 PDT 2025
+Set released year 2004 to movie Movie A
+Thu Mar 27 10:46:00 PDT 2025
+Added genre Drama to movie Movie A
+Thu Mar 27 10:46:00 PDT 2025
+Added genre Comedy to movie Movie A
+Thu Mar 27 10:46:12 PDT 2025
+User 1847223 rated Movie A with score 9
+Thu Mar 27 10:46:15 PDT 2025
+Added stream service Only In Theater to movie Movie A
+Thu Mar 27 10:46:15 PDT 2025
+Added movie: Movie A to the Movie Database.
