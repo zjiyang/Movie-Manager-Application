@@ -45,3 +45,10 @@ Thu Mar 27 10:46:15 PDT 2025
 Added stream service Only In Theater to movie Movie A
 Thu Mar 27 10:46:15 PDT 2025
 Added movie: Movie A to the Movie Database.
+
+## Phase 4: Task 3
+If I had more time, I would consider implementing these two refactoring improments:
+- refactoring the Movie class to reduce its responsibility. Currently, it handles rating process, stream service and genre assignment, which could be delegated to separate helper classes, like RatingManager or StreamServiceManager. 
+- In MovieAppGUI class, I can also refactor to reduce the coupling problem by separate a few methods, including rateMovie, setStreamService and setGenre, to a specific GUI class for each of them. 
+
+In this way, I think it can improve the cohension and decrease the coupling problem. 
