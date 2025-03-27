@@ -32,19 +32,20 @@ This project stands out because it focuses on enhancing the movie experience. It
 - You can view all movies in the database, along with released year and average score infomation, in the middle of this application interface.
 
 ## Phase 4: Task 2
-Some samples of Events:
-Thu Mar 27 10:45:58 PDT 2025
-Set released year 2004 to movie Movie A
-Thu Mar 27 10:46:00 PDT 2025
-Added genre Drama to movie Movie A
-Thu Mar 27 10:46:00 PDT 2025
-Added genre Comedy to movie Movie A
-Thu Mar 27 10:46:12 PDT 2025
-User 1847223 rated Movie A with score 9
-Thu Mar 27 10:46:15 PDT 2025
-Added stream service Only In Theater to movie Movie A
-Thu Mar 27 10:46:15 PDT 2025
-Added movie: Movie A to the Movie Database.
+Some samples of Events:<br />
+
+Thu Mar 27 10:45:58 PDT 2025 <br />
+Set released year 2004 to movie Movie A<br />
+Thu Mar 27 10:46:00 PDT 2025<br />
+Added genre Drama to movie Movie A<br />
+Thu Mar 27 10:46:00 PDT 2025<br />
+Added genre Comedy to movie Movie A<br />
+Thu Mar 27 10:46:12 PDT 2025<br />
+User 1847223 rated Movie A with score 9<br />
+Thu Mar 27 10:46:15 PDT 2025<br />
+Added stream service Only In Theater to movie Movie A<br />
+Thu Mar 27 10:46:15 PDT 2025<br />
+Added movie: Movie A to the Movie Database.<br />
 
 ## Phase 4: Task 3
 If I had more time, I would consider implementing these two refactoring improments:
