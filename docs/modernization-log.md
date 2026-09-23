@@ -92,5 +92,8 @@ remain local with test identities. Reassess those features after the core works.
   This is not Flyway or a migration from legacy JSON.
 - Add rollback-based CRUD/constraint checks and a separate CI job that replaces
   containers and verifies an inserted marker survives on the retained volume.
-- Local Docker is unavailable; remote verification pending. Java code unchanged.
+- Local Docker is unavailable. Remote verification passed for both Java tests
+  and the PostgreSQL job (startup, CRUD/constraints, container replacement and
+  retained data): https://github.com/zjiyang/Movie-Manager-Application/actions/runs/35892767115.
+  Verified code commit: `53e22d9`. Java code unchanged.
 - Document startup, shutdown, volume behavior and current integration limits.

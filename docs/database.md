@@ -48,5 +48,7 @@ CI uses that deletion flag only for its own disposable, uniquely named project.
 ## Verification status
 
 The development Mac has no Docker installation detected. Local startup is not
-yet verified. GitHub CI will validate this exact Compose configuration, exercise
-CRUD and invalid-input constraints, and check data survives container replacement.
+yet verified. GitHub CI validated this exact Compose configuration, exercised
+CRUD and invalid-input constraints, and confirmed data survives container replacement.
+Both the database and Java jobs passed for commit `53e22d9`:
+https://github.com/zjiyang/Movie-Manager-Application/actions/runs/35892767115.
