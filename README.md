@@ -1,5 +1,28 @@
 # 🎬 Movie Rating and Recommendation Platform 
 
+## Build and test
+
+Requires JDK 11 or newer. The Maven Wrapper downloads the pinned Maven 3.9.9
+version on first use; a separate Maven installation is not required. Initial
+setup requires internet access to download Maven and project dependencies.
+
+```sh
+# macOS / Linux, from the repository root
+./mvnw --batch-mode --no-transfer-progress clean test
+```
+
+On Windows, use `mvnw.cmd --batch-mode --no-transfer-progress clean test`.
+Test reports are written to `target/surefire-reports/`.
+
+The **Java CI** GitHub Actions workflow runs the same command on Java 11 for
+pushes and pull requests, and can also be started manually from the Actions tab.
+This checks compilation and automated tests; it does not deploy the application
+or test the desktop GUI. A passing workflow is not a required merge check unless
+repository branch protection is configured separately.
+
+See [the Chinese project story log](docs/项目升级故事记录.md) for the reasoning
+behind each upgrade and [the technical log](docs/modernization-log.md) for details.
+
 ## What can this do?
 This application is all about rating and discovering movies. It helps users record their thoughts on movies they’ve seen, find highly-rated recommendations, and see where they can stream those movies. Key features include:
 - Adding a new movie to the platform’s data, providing details such as title, release year, genre, and streaming platform availability.
@@ -52,4 +75,4 @@ If I had more time, I would consider implementing these two refactoring impromen
 - refactoring the Movie class to reduce its responsibility. Currently, it handles rating process, stream service and genre assignment, which could be delegated to separate helper classes, like RatingManager or StreamServiceManager. 
 - In MovieAppGUI class, I can also refactor to reduce the coupling problem by separate a few methods, including rateMovie, setStreamService and setGenre, to a specific GUI class for each of them. 
 
-In this way, I think it can improve the cohension and decrease the coupling problem. 
+In this way, I think it can improve the cohension and decrease the coupling problem.
