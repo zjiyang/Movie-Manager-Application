@@ -77,5 +77,8 @@ remain local with test identities. Reassess those features after the core works.
   dependency caching, read-only repository permissions and a 10-minute timeout.
 - Document prerequisites, local commands, report locations and the scope of CI.
 - Local verification: Wrapper on Temurin Java 11, `clean test`, 25 tests passed.
-- Remote verification: pending the first GitHub Actions run after pushing.
+- The first remote run failed during tests. Inspection found a reader fixture
+  path with `DataBase` where the tracked filename uses `Database`. Correct the
+  path to match Git exactly; this mismatch was hidden by local macOS filesystem
+  case-insensitivity. Remote verification of the correction is pending.
 - No application behavior, deployment or branch-protection changes.

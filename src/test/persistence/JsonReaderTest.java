@@ -39,7 +39,7 @@ class JsonReaderTest extends JsonTest {
 
     @Test
     void testReaderGeneralMovieDataBase() {
-        JsonReader reader = new JsonReader("./data/testReaderGeneralMovieDataBase.json");
+        JsonReader reader = new JsonReader("./data/testReaderGeneralMovieDatabase.json");
         try {
             MovieDataBase dataBase = reader.read();
             ArrayList<Movie> movies = dataBase.getDataBase();
