@@ -2,13 +2,18 @@ package persistence;
 
 import model.*;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class JsonWriterTest extends JsonTest {
+    @TempDir
+    Path tempDirectory;
+
     //NOTE TO CPSC 210 STUDENTS: the strategy in designing tests for the JsonWriter is to
     //write data to a file and then use the reader to read it back in and check that we
     //read in a copy of what was written out.
@@ -29,13 +34,15 @@ class JsonWriterTest extends JsonTest {
     void testWriterEmptyMovieDataBase() {
         try {
             MovieDataBase database = new MovieDataBase();
-            JsonWriter writer = new JsonWriter("./data/testWriterEmptyMovieDataBase.json");
+            String destination = tempDirectory.resolve("empty.json").toString();
+            JsonWriter writer = new JsonWriter(destination);
             writer.open();
             writer.write(database);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriterEmptyMovieDataBase.json");
+            JsonReader reader = new JsonReader(destination);
             database = reader.read();
+            assertTrue(database.getDataBase().isEmpty());
         } catch (IOException e) {
             fail("Exception should not have been thrown");
         }
@@ -65,12 +72,13 @@ class JsonWriterTest extends JsonTest {
             database.addMovie(m1);
             database.addMovie(m2);
 
-            JsonWriter writer = new JsonWriter("./data/testWriterGeneralMovieDataBase.json");
+            String destination = tempDirectory.resolve("movies.json").toString();
+            JsonWriter writer = new JsonWriter(destination);
             writer.open();
             writer.write(database);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriterGeneralMovieDataBase.json");
+            JsonReader reader = new JsonReader(destination);
             database = reader.read();
             ArrayList<Movie> movies;
             movies = database.getDataBase();
