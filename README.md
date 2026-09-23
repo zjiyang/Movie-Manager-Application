@@ -2,6 +2,9 @@
 
 ## Build and test
 
+PostgreSQL development setup: see [database instructions](docs/database.md).
+The desktop app still uses JSON; backend integration is a later step.
+
 Requires JDK 11 or newer. The Maven Wrapper downloads the pinned Maven 3.9.9
 version on first use; a separate Maven installation is not required. Initial
 setup requires internet access to download Maven and project dependencies.

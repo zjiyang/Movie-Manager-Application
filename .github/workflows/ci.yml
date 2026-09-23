@@ -26,3 +26,34 @@ jobs:
           cache: maven
       - name: Compile and run tests
         run: ./mvnw --batch-mode --no-transfer-progress clean test
+
+  database:
+    name: PostgreSQL schema and persistence
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      COMPOSE_PROJECT_NAME: movie-ci-${{ github.run_id }}-${{ github.run_attempt }}
+      POSTGRES_PASSWORD: ci-only-disposable-password
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Validate and start database
+        run: |
+          docker compose config --quiet
+          docker compose up -d --wait --wait-timeout 120 db
+      - name: Check schema and constraints
+        run: docker compose exec -T db psql -U movie_app -d movie_manager -v ON_ERROR_STOP=1 < database/checks.sql
+      - name: Verify data survives container replacement
+        run: |
+          docker compose exec -T db psql -U movie_app -d movie_manager -v ON_ERROR_STOP=1 -c "INSERT INTO movies (title) VALUES ('CI persistence marker');"
+          docker compose down
+          docker compose up -d --wait --wait-timeout 120 db
+          count=$(docker compose exec -T db psql -U movie_app -d movie_manager -Atc "SELECT count(*) FROM movies WHERE title = 'CI persistence marker';")
+          test "$count" = "1"
+      - name: Database diagnostics
+        if: failure()
+        run: docker compose logs db
+      - name: Remove disposable CI database
+        if: always()
+        run: docker compose down --volumes

@@ -83,3 +83,14 @@ remain local with test identities. Reassess those features after the core works.
   case-insensitivity. The corrected commit `2edc3e9` passed Linux/Java 11 CI:
   https://github.com/zjiyang/Movie-Manager-Application/actions/runs/35821959355.
 - No application behavior, deployment or branch-protection changes.
+
+## Step 4 — PostgreSQL development environment (2026-09-23)
+
+- Add Compose PostgreSQL 17 with a health check, localhost-only port and named
+  volume; require a password via an ignored `.env` file.
+- Bootstrap a movies table and fictional demo records on empty volumes only.
+  This is not Flyway or a migration from legacy JSON.
+- Add rollback-based CRUD/constraint checks and a separate CI job that replaces
+  containers and verifies an inserted marker survives on the retained volume.
+- Local Docker is unavailable; remote verification pending. Java code unchanged.
+- Document startup, shutdown, volume behavior and current integration limits.
