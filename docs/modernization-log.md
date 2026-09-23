@@ -80,5 +80,6 @@ remain local with test identities. Reassess those features after the core works.
 - The first remote run failed during tests. Inspection found a reader fixture
   path with `DataBase` where the tracked filename uses `Database`. Correct the
   path to match Git exactly; this mismatch was hidden by local macOS filesystem
-  case-insensitivity. Remote verification of the correction is pending.
+  case-insensitivity. The corrected commit `2edc3e9` passed Linux/Java 11 CI:
+  https://github.com/zjiyang/Movie-Manager-Application/actions/runs/35821959355.
 - No application behavior, deployment or branch-protection changes.
