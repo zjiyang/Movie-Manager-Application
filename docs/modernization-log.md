@@ -108,7 +108,10 @@ remain local with test identities. Reassess those features after the core works.
   transactions and schema validation, without automatic schema changes.
 - Add real HTTP/PostgreSQL integration checks in a separate Java 21 CI job.
 - Local Java 24 successfully compiled Java 21 bytecode, compiled test sources
-  and packaged the executable backend. Integration checks await CI because
-  local Docker is not installed; packaging alone is not an integration test.
+  and packaged the executable backend. Local Docker is still unavailable;
+  packaging alone is not an integration test.
+- Remote verification passed: all three CI jobs (legacy Java, database checks,
+  and real HTTP/PostgreSQL backend integration) succeeded for commit `0a7e951`.
+  https://github.com/zjiyang/Movie-Manager-Application/actions/runs/35939434260
 - Flyway adoption is intentionally separated from this read-only step; no schema
   changes, legacy JSON import, authentication or write endpoints are included.

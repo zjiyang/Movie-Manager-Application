@@ -62,3 +62,11 @@ not create, update or drop tables automatically. Flyway adoption, including
 handling existing volumes without losing data, is a separate upcoming step.
 Legacy JSON files are not imported. This step deliberately does not alter the
 schema introduced by the preceding commit.
+
+## Verified result
+
+Commit `0a7e951` passed all three CI jobs, including the real HTTP/PostgreSQL
+integration suite on Java 21:
+https://github.com/zjiyang/Movie-Manager-Application/actions/runs/35939434260.
+Local compilation/packaging succeeded on Java 24 with a Java 21 target; local
+database startup remains unverified because Docker is not installed on the Mac.
