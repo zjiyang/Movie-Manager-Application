@@ -57,3 +57,35 @@ jobs:
       - name: Remove disposable CI database
         if: always()
         run: docker compose down --volumes
+
+  backend:
+    name: Spring Boot API with PostgreSQL (Java 21)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      COMPOSE_PROJECT_NAME: movie-api-ci-${{ github.run_id }}-${{ github.run_attempt }}
+      POSTGRES_PASSWORD: ci-only-disposable-password
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          cache-dependency-path: backend/pom.xml
+      - name: Start disposable PostgreSQL
+        run: docker compose up -d --wait --wait-timeout 120 db
+      - name: Build backend and verify HTTP/database integration
+        run: ./mvnw -f backend/pom.xml --batch-mode --no-transfer-progress -Pintegration verify
+      - name: Integration diagnostics
+        if: failure()
+        run: |
+          docker compose logs db
+          if [ -d backend/target/failsafe-reports ]; then
+            cat backend/target/failsafe-reports/*.txt
+          fi
+      - name: Remove disposable CI database
+        if: always()
+        run: docker compose down --volumes

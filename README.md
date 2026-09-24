@@ -3,7 +3,8 @@
 ## Build and test
 
 PostgreSQL development setup: see [database instructions](docs/database.md).
-The desktop app still uses JSON; backend integration is a later step.
+The desktop app still uses JSON. The separate [Spring Boot query backend](backend/README.md)
+reads PostgreSQL through paginated list and movie-detail APIs.
 
 Requires JDK 11 or newer. The Maven Wrapper downloads the pinned Maven 3.9.9
 version on first use; a separate Maven installation is not required. Initial

@@ -41,8 +41,10 @@ CI uses that deletion flag only for its own disposable, uniquely named project.
   SQL NULL rather than the desktop model's default zero.
 - Users, ratings and genres are later steps.
 - `database/init/001_create_movies.sql` runs only when the database volume is
-  first created. Editing it does NOT update an existing database. Flyway will
-  be introduced with Spring Boot, with an explicit plan for this existing schema.
+  first created. Editing it does NOT update an existing database. The initial
+  Spring Boot query backend validates this schema without changing it. Flyway
+  adoption is a separate next step before schema evolution, with an explicit
+  plan for this existing schema.
 - The PostgreSQL 17 major version is pinned; patch releases may change the image.
 
 ## Verification status

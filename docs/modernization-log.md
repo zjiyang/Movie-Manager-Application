@@ -97,3 +97,18 @@ remain local with test identities. Reassess those features after the core works.
   retained data): https://github.com/zjiyang/Movie-Manager-Application/actions/runs/35892767115.
   Verified code commit: `53e22d9`. Java code unchanged.
 - Document startup, shutdown, volume behavior and current integration limits.
+
+## Step 5 — read-only Spring Boot movie API (2026-09-23)
+
+- Add a separate `backend/` Maven project with Spring Boot 3.5.16, Java 21,
+  Spring Web, Spring Data JPA and the PostgreSQL driver.
+- Expose `GET /api/movies` (bounded pagination, stable ID ordering) and
+  `GET /api/movies/{id}`; return 400 for invalid input and 404 for missing movies.
+- Keep database entities separate from response records. Use read-only service
+  transactions and schema validation, without automatic schema changes.
+- Add real HTTP/PostgreSQL integration checks in a separate Java 21 CI job.
+- Local Java 24 successfully compiled Java 21 bytecode, compiled test sources
+  and packaged the executable backend. Integration checks await CI because
+  local Docker is not installed; packaging alone is not an integration test.
+- Flyway adoption is intentionally separated from this read-only step; no schema
+  changes, legacy JSON import, authentication or write endpoints are included.
