@@ -115,3 +115,45 @@ remain local with test identities. Reassess those features after the core works.
   https://github.com/zjiyang/Movie-Manager-Application/actions/runs/35939434260
 - Flyway adoption is intentionally separated from this read-only step; no schema
   changes, legacy JSON import, authentication or write endpoints are included.
+
+## Step 6 — Flyway, the full domain model and the imported library (2026-09-25)
+
+Scope: give the service the relationships the desktop application had, and put
+schema changes under version control before the model grows further.
+
+### Changes
+
+- Hand schema ownership to Flyway. The Compose init script becomes `V1`; the
+  backend applies `V1`–`V3` on startup and Hibernate stays on `validate`, so it
+  checks the mapping and never creates or alters a table itself.
+- `V2` adds `genres`, `stream_services`, the two join tables and `ratings`.
+  The pair is the primary key in each join table, `(movie_id, user_id)` is
+  unique in `ratings`, scores are constrained to 0–10, deleting a movie cascades
+  to its ratings and links, and deleting a genre still in use is refused.
+- `V3` imports `data/MovieDataBase.json`: six movies with their genres, services
+  and scores, plus the genre vocabulary the model class defined. `Only In
+  Theater` is kept as stored rather than dropped.
+- Map the relationships as lazy collections with a batch size, so a page of
+  movies costs one query per collection instead of one per movie.
+- The API now returns genres, streaming services, rating count and average for
+  each movie; adds a case-insensitive `genre` filter that counts a two-genre
+  movie once; and adds `GET /api/genres`.
+- The average is computed as a real mean and reported as absent when nobody has
+  rated the movie. The desktop version divided two integers and threw on an
+  empty list.
+- Extend the constraint script and the integration tests to cover the imported
+  data, the filter, and the rating rules.
+
+### Verification
+
+- The three migrations and the constraint script were run against PostgreSQL 16
+  outside this repository: all six movies, their genres, services and averages
+  match `data/MovieDataBase.json`, and every constraint check passed.
+- Compilation and the HTTP/database integration tests need Maven Central and
+  Docker, neither of which is reachable from this development machine. Remote CI
+  verification is pending and will be recorded here once the run completes.
+
+### Next increment
+
+Step 7: rating writes. One user, one movie, one score, with re-rating replacing
+the value rather than adding a row, verified against the unique constraint.
