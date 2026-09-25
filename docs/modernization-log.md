@@ -162,3 +162,46 @@ schema changes under version control before the model grows further.
 
 Step 7: rating writes. One user, one movie, one score, with re-rating replacing
 the value rather than adding a row, verified against the unique constraint.
+
+## Step 7 — rating writes (2026-09-25)
+
+Scope: let a user record a score, with the rule that one user has one score per
+movie. No schema change: the constraint that makes this work was added in `V2`.
+
+### Changes
+
+- `PUT /api/movies/{movieId}/ratings/{userId}` sets a score, and
+  `DELETE` on the same path withdraws it.
+- The write is a single `INSERT ... ON CONFLICT (movie_id, user_id) DO UPDATE`.
+  Reading first to choose between insert and update would be check-then-act: two
+  requests could both read "no rating yet" and both insert. The database resolves
+  the collision at write time instead, so the endpoint is idempotent and a second
+  row is impossible. `created_at` is left alone on conflict; `updated_at` moves.
+- The existence check before the write exists only to return a clear 404 rather
+  than a constraint error. It is not what keeps the data correct.
+- Scores are validated to 0–10 at the edge and again by a database check
+  constraint. A missing body or a null score is rejected rather than defaulted.
+- The response is the updated movie, because the only thing a rating changes for
+  a reader is the average, and returning it saves the client a second request.
+- Withdrawing a rating that is not there stays successful; only an unknown movie
+  is reported as missing.
+- `PUT` rather than `POST`: the request names the exact rating it sets, so
+  repeating it changes nothing. `POST` would read as "add another rating".
+
+### Known limitation
+
+The user is a path segment, so anyone can write as anyone. Authentication has to
+replace it before this endpoint is exposed publicly, and the deployment step must
+keep the write endpoints closed until then.
+
+### Verification
+
+- 15 integration tests over real HTTP and PostgreSQL cover replacement rather
+  than duplication, timestamp behaviour, per-user isolation, the recomputed
+  average, range and body validation, and both withdrawal paths.
+- Compilation and those tests need Maven Central and Docker, neither reachable
+  from this development machine. Remote CI verification is pending.
+
+### Next increment
+
+Step 8: a minimal React interface over these endpoints.
