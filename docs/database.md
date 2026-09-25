@@ -1,7 +1,9 @@
-# PostgreSQL local development
+# PostgreSQL development database
 
-This step adds a standalone development database. The Java desktop application
-still reads/writes JSON; no existing movie data has been migrated.
+The schema and the imported movie library are managed by Flyway migrations in
+`backend/src/main/resources/db/migration`. The Spring Boot backend runs them on
+startup; Hibernate is set to `validate`, so it checks the mapping against what
+Flyway built and is never allowed to create or alter a table itself.
 
 ## Start
 
@@ -12,14 +14,26 @@ From the repository root:
 cp .env.example .env
 # Edit .env and replace the example password before starting.
 docker compose up -d --wait db
-docker compose exec db psql -U movie_app -d movie_manager
 ```
 
-In psql: `SELECT * FROM movies;` lists two fictional demo movies. Use `\q` to exit.
+The container now starts empty. Running the backend applies every migration:
+
+```sh
+./mvnw -f backend/pom.xml spring-boot:run
+```
+
+Then `docker compose exec db psql -U movie_app -d movie_manager` and
+`SELECT title, release_year FROM movies;` lists the imported library. `\q` exits.
+
 Database: `movie_manager`; user: `movie_app`; host: `127.0.0.1`; port: `5432`.
 Set `POSTGRES_PORT` in `.env` if that port is already in use. Passwords in `.env`
-are ignored by Git. The database is bound only to the local machine.
-This bootstrap account owns the database; it is not a production permissions design.
+are ignored by Git, and the database is bound only to the local machine. This
+bootstrap account owns the database; it is not a production permissions design.
+
+**Upgrading an existing local volume:** volumes created before Flyway already
+contain a `movies` table, which makes the first migration fail. Those volumes are
+disposable development data, so recreate them with `docker compose down --volumes`
+and start again.
 
 ## Check and stop
 
@@ -33,24 +47,45 @@ removes containers but retains the named `movie_data` volume; start again to
 reuse the data. Do not add `--volumes` unless you intend to erase this database.
 CI uses that deletion flag only for its own disposable, uniquely named project.
 
-## Schema choices and limits
+## Schema
 
-- `movies`: generated ID, nonblank title (up to 255 characters), optional release
-  year between 1888 and 2100, and creation timestamp.
-- Titles are not unique: different films can share a name. Unknown years use
+| Table | Holds |
+| --- | --- |
+| `movies` | Generated ID, nonblank title, optional release year (1888–2100), creation timestamp |
+| `genres` | The fixed vocabulary the desktop model defined, names unique |
+| `stream_services` | Where a movie can be watched, names unique |
+| `movie_genres` | Movie-to-genre pairs; the pair is the primary key |
+| `movie_stream_services` | Movie-to-service pairs; the pair is the primary key |
+| `ratings` | One score per user per movie, 0–10, unique on `(movie_id, user_id)` |
+
+Choices worth naming:
+
+- **A movie has many genres and a genre has many movies**, so the link lives in
+  its own table rather than in a column. Making the pair the primary key means
+  the database, not application code, refuses a duplicate link.
+- **One rating per user per movie is a database constraint.** Two simultaneous
+  requests cannot both insert; the second fails on the unique index.
+- **Deleting a movie cascades** to its ratings and its links, so no orphan rows
+  survive. Deleting a genre that is still in use is refused instead.
+- **Titles are not unique**: different films can share a name. Unknown years are
   SQL NULL rather than the desktop model's default zero.
-- Users, ratings and genres are later steps.
-- `database/init/001_create_movies.sql` runs only when the database volume is
-  first created. Editing it does NOT update an existing database. The initial
-  Spring Boot query backend validates this schema without changing it. Flyway
-  adoption is a separate next step before schema evolution, with an explicit
-  plan for this existing schema.
+- `V3` imports `data/MovieDataBase.json`. `Only In Theater` is not a streaming
+  platform, but the desktop application stored it in the same field, so the
+  import keeps it rather than dropping data.
 - The PostgreSQL 17 major version is pinned; patch releases may change the image.
+
+## Migrations
+
+Files are `V<version>__<description>.sql` and are applied in version order, once
+each, tracked in a `flyway_schema_history` table. **A migration that has run
+anywhere is never edited**; a change means a new file with the next version.
+
+CI applies the same files with `psql` in its database job, and the backend job
+exercises Flyway itself by starting the application against an empty database.
 
 ## Verification status
 
-The development Mac has no Docker installation detected. Local startup is not
-yet verified. GitHub CI validated this exact Compose configuration, exercised
-CRUD and invalid-input constraints, and confirmed data survives container replacement.
-Both the database and Java jobs passed for commit `53e22d9`:
-https://github.com/zjiyang/Movie-Manager-Application/actions/runs/35892767115.
+This development machine has no Docker installation and no Maven, so startup is
+verified remotely. GitHub CI validates the Compose configuration, applies every
+migration, exercises the constraints above, and confirms data survives container
+replacement.

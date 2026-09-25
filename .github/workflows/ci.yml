@@ -42,6 +42,14 @@ jobs:
         run: |
           docker compose config --quiet
           docker compose up -d --wait --wait-timeout 120 db
+      - name: Apply Flyway migrations with psql
+        # The same files Flyway runs inside the application. Sorted by version so
+        # V2 never lands before V1; switch to numeric-aware sorting past V9.
+        run: |
+          for file in $(ls backend/src/main/resources/db/migration/V*.sql | sort -V); do
+            echo "Applying $file"
+            docker compose exec -T db psql -U movie_app -d movie_manager -v ON_ERROR_STOP=1 -q < "$file"
+          done
       - name: Check schema and constraints
         run: docker compose exec -T db psql -U movie_app -d movie_manager -v ON_ERROR_STOP=1 < database/checks.sql
       - name: Verify data survives container replacement

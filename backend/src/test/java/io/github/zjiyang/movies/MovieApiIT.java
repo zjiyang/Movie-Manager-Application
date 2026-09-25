@@ -1,6 +1,8 @@
 package io.github.zjiyang.movies;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,6 +36,85 @@ class MovieApiIT {
             jdbc.update("DELETE FROM movies WHERE id = ?", fixtureId);
         }
     }
+
+    // --- the imported library ------------------------------------------------
+
+    @Test
+    void migrationsImportedTheDesktopLibrary() {
+        var id = jdbc.queryForObject("SELECT id FROM movies WHERE title = 'The Godfather'", Long.class);
+        var movie = http.getForObject("/api/movies/" + id, JsonNode.class);
+        assertThat(movie.get("releaseYear").asInt()).isEqualTo(1972);
+        assertThat(names(movie.get("genres"))).containsExactly("Drama");
+        assertThat(names(movie.get("streamServices"))).containsExactly("DisneyPlus", "Netflix");
+        assertThat(movie.get("averageScore").asDouble()).isEqualTo(8.0);
+        assertThat(movie.get("ratingCount").asInt()).isEqualTo(1);
+    }
+
+    @Test
+    void movieCanCarryMoreThanOneGenre() {
+        var id = jdbc.queryForObject(
+                "SELECT id FROM movies WHERE title = 'There''s Still Tomorrow'", Long.class);
+        var movie = http.getForObject("/api/movies/" + id, JsonNode.class);
+        assertThat(names(movie.get("genres"))).containsExactly("Comedy", "Drama");
+    }
+
+    @Test
+    void genreVocabularyIsAvailableAndSorted() {
+        var genres = names(http.getForObject("/api/genres", JsonNode.class));
+        assertThat(genres).contains("Drama", "Romance", "Sci-Fi").isSorted();
+    }
+
+    // --- filtering -----------------------------------------------------------
+
+    @Test
+    void genreFilterReturnsOnlyMatchingMovies() {
+        var titles = titlesOf(http.getForObject("/api/movies?genre=Drama&size=100", JsonNode.class));
+        assertThat(titles).contains("The Godfather", "The Outrun", "There's Still Tomorrow")
+                .doesNotContain("La La Land", "接口测试电影");
+    }
+
+    @Test
+    void genreFilterIgnoresCase() {
+        var lower = http.getForObject("/api/movies?genre=drama&size=100", JsonNode.class);
+        var upper = http.getForObject("/api/movies?genre=DRAMA&size=100", JsonNode.class);
+        assertThat(lower.get("totalElements").asLong())
+                .isEqualTo(upper.get("totalElements").asLong())
+                .isGreaterThan(0);
+    }
+
+    @Test
+    void unknownGenreIsAnEmptyResultNotAnError() {
+        var response = http.getForEntity("/api/movies?genre=NoSuchGenre", JsonNode.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody().get("items").isEmpty()).isTrue();
+        assertThat(response.getBody().get("totalElements").asLong()).isZero();
+    }
+
+    @Test
+    void movieWithTwoGenresIsCountedOnce() {
+        var body = http.getForObject("/api/movies?genre=Comedy&size=100", JsonNode.class);
+        assertThat(body.get("totalElements").asLong()).isEqualTo(body.get("items").size());
+    }
+
+    // --- ratings on the response ---------------------------------------------
+
+    @Test
+    void movieWithoutRatingsReportsNoAverage() {
+        var movie = http.getForObject("/api/movies/" + fixtureId, JsonNode.class);
+        assertThat(movie.get("averageScore").isNull()).isTrue();
+        assertThat(movie.get("ratingCount").asInt()).isZero();
+    }
+
+    @Test
+    void averageReflectsEveryStoredScore() {
+        jdbc.update("INSERT INTO ratings (movie_id, user_id, score) VALUES (?, ?, ?)", fixtureId, 901, 6);
+        jdbc.update("INSERT INTO ratings (movie_id, user_id, score) VALUES (?, ?, ?)", fixtureId, 902, 9);
+        var movie = http.getForObject("/api/movies/" + fixtureId, JsonNode.class);
+        assertThat(movie.get("averageScore").asDouble()).isEqualTo(7.5);
+        assertThat(movie.get("ratingCount").asInt()).isEqualTo(2);
+    }
+
+    // --- behaviour carried over from the read-only step -----------------------
 
     @Test
     void detailReadsActualDatabaseAndReflectsUpdates() {
@@ -81,5 +162,25 @@ class MovieApiIT {
     void invalidRequestsReturnBadRequest(String suffix) {
         assertThat(http.getForEntity("/api/movies" + suffix, String.class).getStatusCode())
                 .isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void overlongGenreIsRejected() {
+        var response = http.getForEntity("/api/movies?genre=" + "a".repeat(61), String.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    // --- helpers -------------------------------------------------------------
+
+    private static List<String> names(JsonNode array) {
+        var values = new ArrayList<String>();
+        array.forEach(node -> values.add(node.asText()));
+        return values;
+    }
+
+    private static List<String> titlesOf(JsonNode page) {
+        var titles = new ArrayList<String>();
+        page.get("items").forEach(node -> titles.add(node.get("title").asText()));
+        return titles;
     }
 }
