@@ -209,3 +209,36 @@ keep the write endpoints closed until then.
 ### Next increment
 
 Step 8: a minimal React interface over these endpoints.
+
+## Step 8 — React interface (2026-09-25)
+
+Scope: a small browser interface over the existing endpoints. Deliberately
+plain; the backend is where this project is meant to be deep.
+
+### Changes
+
+- `frontend/`: React 18 and TypeScript on Vite, with a typed API client, a
+  loading/error hook, and hash routing so each view has a URL without pulling in
+  a router or needing server rewrite rules after deployment.
+- Browse with a genre filter and pagination, open a movie, set a score 0–10 or
+  withdraw it.
+- Vite forwards `/api` to the backend in development, so the browser always
+  calls its own origin. No CORS configuration, and no API address in the bundle.
+- The average shown after rating is the one the server returned, not a number
+  recomputed in the browser.
+- `useAsync` drops a response whose request has been superseded, so switching
+  filters quickly cannot leave stale results on screen.
+- A fourth CI job installs the locked dependencies and runs typecheck and build.
+
+### Verification
+
+- `npm run build` passes locally with TypeScript in strict mode, including
+  `noUncheckedIndexedAccess` and `noUnusedLocals`.
+- The frontend has not yet been exercised against a running backend: that needs
+  Docker and Maven, neither available on this machine. Step 9 deploys both
+  together, which is the first point where the two can be checked end to end.
+
+### Next increment
+
+Step 9: package the backend as an image, deploy backend and frontend together,
+and keep the rating endpoints closed until authentication exists.

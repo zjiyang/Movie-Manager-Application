@@ -97,3 +97,25 @@ jobs:
       - name: Remove disposable CI database
         if: always()
         run: docker compose down --volumes
+
+  frontend:
+    name: Frontend typecheck and build (Node 22)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install exactly the locked dependencies
+        run: npm ci
+      - name: Typecheck and build
+        run: npm run build
