@@ -150,8 +150,13 @@ schema changes under version control before the model grows further.
   outside this repository: all six movies, their genres, services and averages
   match `data/MovieDataBase.json`, and every constraint check passed.
 - Compilation and the HTTP/database integration tests need Maven Central and
-  Docker, neither of which is reachable from this development machine. Remote CI
-  verification is pending and will be recorded here once the run completes.
+  Docker, neither of which is reachable from this development machine, so both
+  were verified remotely.
+- Remote verification passed on the first run: all three CI jobs (legacy Java
+  tests, migrations plus constraint checks applied with psql, and the Spring Boot
+  backend starting against an empty database and serving real HTTP requests)
+  succeeded for commit `c2b04f4`.
+  https://github.com/zjiyang/Movie-Manager-Application/actions/runs/36172015928
 
 ### Next increment
 

@@ -87,5 +87,7 @@ exercises Flyway itself by starting the application against an empty database.
 
 This development machine has no Docker installation and no Maven, so startup is
 verified remotely. GitHub CI validates the Compose configuration, applies every
-migration, exercises the constraints above, and confirms data survives container
-replacement.
+migration, exercises the constraints above, confirms data survives container
+replacement, and starts the backend against an empty database. All three jobs
+passed for commit `c2b04f4`:
+https://github.com/zjiyang/Movie-Manager-Application/actions/runs/36172015928
