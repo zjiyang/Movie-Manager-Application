@@ -200,7 +200,11 @@ keep the write endpoints closed until then.
   than duplication, timestamp behaviour, per-user isolation, the recomputed
   average, range and body validation, and both withdrawal paths.
 - Compilation and those tests need Maven Central and Docker, neither reachable
-  from this development machine. Remote CI verification is pending.
+  from this development machine, so both were verified remotely.
+- Remote verification passed on the first run: all three CI jobs succeeded for
+  commit `d979782`, with 31 integration tests against a real HTTP server and a
+  real PostgreSQL database.
+  https://github.com/zjiyang/Movie-Manager-Application/actions/runs/36173056046
 
 ### Next increment
 
