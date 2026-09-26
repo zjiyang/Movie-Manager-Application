@@ -1,0 +1,45 @@
+# Render blueprint. Creating the service from this file rather than clicking
+# through a form keeps the deployment configuration in version control.
+#
+# Check the current plans before applying: names and free-tier terms change, and
+# a managed database in particular may expire or cost money.
+
+databases:
+  - name: movie-manager-db
+    databaseName: movie_manager
+    user: movie_app
+
+services:
+  - type: web
+    name: movie-manager
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /actuator/health
+    autoDeploy: true
+    envVars:
+      - key: SERVER_ADDRESS
+        value: 0.0.0.0
+      # The rating endpoints take the user from the URL, so a public deployment
+      # keeps them closed. Flip this only after authentication exists.
+      - key: RATINGS_WRITABLE
+        value: "false"
+      - key: POSTGRES_HOST
+        fromDatabase:
+          name: movie-manager-db
+          property: host
+      - key: POSTGRES_PORT
+        fromDatabase:
+          name: movie-manager-db
+          property: port
+      - key: POSTGRES_DB
+        fromDatabase:
+          name: movie-manager-db
+          property: database
+      - key: POSTGRES_USER
+        fromDatabase:
+          name: movie-manager-db
+          property: user
+      - key: POSTGRES_PASSWORD
+        fromDatabase:
+          name: movie-manager-db
+          property: password

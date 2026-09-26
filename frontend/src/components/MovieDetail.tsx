@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { fetchMovie } from '../api';
+import { fetchConfig, fetchMovie } from '../api';
 import { useAsync } from '../hooks/useAsync';
 import type { Movie } from '../types';
 import { RatingControl } from './RatingControl';
@@ -7,6 +7,7 @@ import { Status } from './Status';
 
 export function MovieDetail({ id }: { id: number }) {
   const state = useAsync(useCallback(() => fetchMovie(id), [id]), [id]);
+  const config = useAsync(fetchConfig, []);
   // The rating control hands back the movie the server returned, so the average
   // on screen is the server's answer rather than a number guessed on the client.
   const [movie, setMovie] = useState<Movie | null>(null);
@@ -38,7 +39,11 @@ export function MovieDetail({ id }: { id: number }) {
             </dd>
           </dl>
 
-          <RatingControl movie={movie} onChange={setMovie} />
+          <RatingControl
+            movie={movie}
+            writable={config.data?.ratingsWritable ?? false}
+            onChange={setMovie}
+          />
         </article>
       )}
     </>

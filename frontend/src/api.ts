@@ -1,4 +1,4 @@
-import type { Movie, MoviePage } from './types';
+import type { ClientConfig, Movie, MoviePage } from './types';
 
 /**
  * Until authentication exists, the backend takes the user from the URL and the
@@ -34,6 +34,10 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
   if (response.status === 204) return undefined as T;
   return (await response.json()) as T;
+}
+
+export function fetchConfig(): Promise<ClientConfig> {
+  return request<ClientConfig>('/config');
 }
 
 export function fetchMovies(page: number, size: number, genre: string | null): Promise<MoviePage> {

@@ -10,9 +10,11 @@ const SCORES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
  */
 export function RatingControl({
   movie,
+  writable,
   onChange,
 }: {
   movie: Movie;
+  writable: boolean;
   onChange: (movie: Movie) => void;
 }) {
   const [busy, setBusy] = useState(false);
@@ -32,6 +34,18 @@ export function RatingControl({
     } finally {
       setBusy(false);
     }
+  }
+
+  if (!writable) {
+    return (
+      <section className="rating">
+        <h3>Your rating</h3>
+        <p className="muted small">
+          This deployment is read-only. Rating is enabled once the service can tell who is asking;
+          until then the endpoint would let anyone write as anyone.
+        </p>
+      </section>
+    );
   }
 
   return (

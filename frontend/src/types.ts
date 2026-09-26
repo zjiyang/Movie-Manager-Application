@@ -16,3 +16,8 @@ export interface MoviePage {
   totalElements: number;
   totalPages: number;
 }
+
+export interface ClientConfig {
+  /** False in a deployment that has not enabled writes, so the UI hides them. */
+  ratingsWritable: boolean;
+}

@@ -1,6 +1,7 @@
 package io.github.zjiyang.movies;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,10 +21,25 @@ public class MovieController {
     private static final int MAX_SCORE = 10;
 
     private final MovieService service;
+    private final boolean ratingsWritable;
 
-    public MovieController(MovieService service) {
+    public MovieController(MovieService service,
+                           @Value("${app.ratings.writable}") boolean ratingsWritable) {
         this.service = service;
+        this.ratingsWritable = ratingsWritable;
     }
+
+    /**
+     * What the browser needs to know about this particular deployment. Right now
+     * that is only whether it may offer the rating buttons, so a read-only
+     * deployment does not invite a click that is going to be refused.
+     */
+    @GetMapping("/api/config")
+    public ClientConfig config() {
+        return new ClientConfig(ratingsWritable);
+    }
+
+    public record ClientConfig(boolean ratingsWritable) { }
 
     @GetMapping("/api/movies")
     public MoviePage list(@RequestParam(defaultValue = "0") int page,
@@ -64,6 +80,7 @@ public class MovieController {
     public MovieResponse rate(@PathVariable long movieId,
                               @PathVariable long userId,
                               @RequestBody(required = false) RatingRequest request) {
+        requireWritable();
         requirePositive(movieId, "movieId");
         requirePositive(userId, "userId");
         if (request == null || request.score() == null) {
@@ -79,10 +96,23 @@ public class MovieController {
 
     @DeleteMapping("/api/movies/{movieId}/ratings/{userId}")
     public ResponseEntity<Void> withdrawRating(@PathVariable long movieId, @PathVariable long userId) {
+        requireWritable();
         requirePositive(movieId, "movieId");
         requirePositive(userId, "userId");
         service.withdrawRating(movieId, userId);
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Closed deployments refuse writes at the edge. This is a switch, not
+     * security: it keeps an unauthenticated endpoint off the public internet
+     * until authentication replaces the user in the path.
+     */
+    private void requireWritable() {
+        if (!ratingsWritable) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                    "This deployment is read-only until sign-in exists");
+        }
     }
 
     private static void requirePositive(long value, String name) {

@@ -242,3 +242,45 @@ plain; the backend is where this project is meant to be deep.
 
 Step 9: package the backend as an image, deploy backend and frontend together,
 and keep the rating endpoints closed until authentication exists.
+
+## Step 9 — one image, and a deployment that can be public (2026-09-26)
+
+Scope: make the project runnable as a single unit and safe to expose, without
+adding authentication yet.
+
+### Changes
+
+- A three-stage `Dockerfile`: build the bundle with Node, build the jar with
+  Maven and place the bundle inside it, then run the jar on a JRE as a non-root
+  user. One container serves the page and the API, so the browser keeps talking
+  to its own origin.
+- Fix an address that would have broken every deployment: `server.address` was
+  pinned to `127.0.0.1`, which is unreachable from outside a container. It is now
+  an environment variable, still loopback for local runs, `0.0.0.0` in the image.
+- Compose gains an `app` service, so `docker compose up --build` runs database,
+  API and page together.
+- `render.yaml` describes the web service and a managed database and wires the
+  database's credentials into the variables the application already reads, so the
+  deployment is reviewable in version control rather than remembered form fields.
+- Add Spring Boot Actuator for a health check, with only `health` exposed and no
+  details in its response.
+- `RATINGS_WRITABLE` closes the rating endpoints. The user is still a path
+  segment, so a public deployment must refuse writes; `PUT` and `DELETE` answer
+  403 and `GET /api/config` tells the page, which then explains the state instead
+  of offering buttons that would fail.
+
+### Verification
+
+- The frontend builds with TypeScript in strict mode.
+- A new CI job builds the image, starts the full stack against a disposable
+  database, and checks the running container: health reports `UP`, the page is
+  served, the API returns the imported library and the genre vocabulary,
+  `/api/config` reports the closed state, and a `PUT` to a rating is refused with
+  403. This is the first time the three pieces run together.
+- Not yet verified: a real hosted deployment. That needs an account and is the
+  remaining manual step.
+
+### Next increment
+
+Step 10: authentication, which replaces the user in the path and retires the
+`RATINGS_WRITABLE` switch.
